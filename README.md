@@ -1,5 +1,9 @@
 # frontEnder-Milly
 
+<a href="https://gitmoji.carloscuesta.me">
+  <img src="https://img.shields.io/badge/gitmoji-%20😜%20😍-FFDD67.svg?style=flat-square" alt="Gitmoji">
+</a>
+
 ### 前端小姐姐一起走花路叭~点点star哟~~~ 持续更新中......
 
 在这里，泥萌可以找到我们大前端的HTML/CSS/JavaScript、Vue框架(我的前端入门框架)、算法思路总结(主要是学习大东老师的算法框架并应用于实践)、前端周边(前端工具选择、浏览器、计算机网络等等)、2020实习面经总结分享、2020暑期实习生活体验以及随手记录~
@@ -55,7 +59,7 @@ weChat | e-mial
 
 ## 打个赏喽
 
-![扫一扫微信](images/wechat_milly.jpg)
+<img src="images/wechat_milly.jpg" style="width: 100px;" />
 
 [还有支付宝哦~](images/mengmeng.jpg)
 
@@ -67,4 +71,4 @@ weChat | e-mial
 
 ---
 
-> 由于网络原因，该项目中涉及到的图片有可能无法显示哦，多刷新几次试试看，或者，可以clone到本地查看哦~
+> 由于Github服务器是部署在国外的，该项目中涉及到的图片有可能无法显示哦，不多说，科学上网肯定使我们程序媛必备啦，不用搭建梯子可以直接查看，chrome安装几个插件就可以啦，可以去该项目`开篇/前端开发工具下/武装你的浏览器`看看哦~

@@ -19,7 +19,8 @@
 ### 解决方案
 
 - 开发工具VSCode安装一下插件`Markdown All in One`:
-![md插件安装](../images/Network/md插件安装.png)
+
+<img src="../images/Network/md插件安装.png" title="md插件安装" alt="md插件安装" align="center">
 
 - 在你想要生成目录文件中`ctrl+shift+p`,输入`Markdown All in One: Create Table of Contents`:
   ![使用插件生成目录](../images/Network/生成目录.png)
