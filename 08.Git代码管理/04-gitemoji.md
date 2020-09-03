@@ -8,6 +8,11 @@ https://gitmoji.carloscuesta.me/
 
 http://emojihomepage.com/
 
+https://www.webfx.com/tools/emoji-cheat-sheet/
+
+也可以在chrome安装`Emoty`插件就可以快速查找emoji啦，点击你想要的emoji就可以复制对应代码，直接粘贴就好:smirk:
+![](../images/Network/chrome-emoji.png)
+
 ### 提交指南
 
 `git commit -m ':sparkles:提交可以有emoji嘛'`
