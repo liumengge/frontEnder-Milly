@@ -63,8 +63,8 @@ weChat | e-mial
 
 WeChat | Baobao  
 ---------|----------
- <img src="images/wechat_milly.jpg" style="width: 30%;" />
- | <img src="images/mengmeng.jpg" style="width: 30%; height: 50%;" />
+ <img src="images/wechat_milly.jpg" width="80" height="100" />
+ | <img src="images/mengmeng.jpg" width="80" height="120" />
  
 ---
 
