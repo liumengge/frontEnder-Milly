@@ -60,10 +60,12 @@ weChat | e-mial
 
 ## 打个赏喽
 
-<img src="images/wechat_milly.jpg" style="max-width: 30%;" />
 
-[还有支付宝哦~](images/mengmeng.jpg)
-
+WeChat | Baobao  
+---------|----------
+ <img src="images/wechat_milly.jpg" style="width: 30%;" />
+ | <img src="images/mengmeng.jpg" style="width: 30%; height: 50%;" />
+ 
 ---
 
 #### 说明
