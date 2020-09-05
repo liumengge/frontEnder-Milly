@@ -7,10 +7,15 @@
 </head>
 <body>
     <ul class="aaa">
-        <li>1</li>
-        <li>2</li>
-        <li>3</li>
-        <li>4</li>
+        <li>text1</li>
+        <li>text2</li>
     </ul>
+    <script>
+        var ul = document.querySelector('ul')
+        ul.addEventListener("click", function (e) {  
+                console.log(e.target.innerText)
+                console.log(e)
+            })
+    </script>
 </body>
 </html>
