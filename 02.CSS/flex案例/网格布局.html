@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>网格布局</title>
+    <style>
+        .box {
+            display: flex;
+            border: 2px solid yellowgreen;
+        }
+        .box:nth-of-type(2) {
+            margin-top: 50px;
+        }
+        .item {
+            flex: 1;
+            background-color: blueviolet;
+        }
+        .item:nth-of-type(2), .item:nth-of-type(5) {
+            background-color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <div class="box">
+        <div class="item">111111</div>
+        <div class="item">222222</div>
+        <div class="item">333333</div>
+    </div>
+    <div class="box">
+        <div class="item">111111</div>
+        <div class="item">222222</div>
+        <div class="item">333333</div>
+    </div>
+    <script>
+
+    </script>
+</body>
+</html>

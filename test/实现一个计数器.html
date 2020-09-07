@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <button onclick="myCounter.startCount()">开始</button>
+    <input id="counter" type="text" readonly>
+    <button type="button" onclick="myCounter.stopCount()">停止</button>
+    
+    <script>
+       var myCounter = (function () {
+           var step = 0
+           var intervalId = null
+           function count() {
+               document.getElementById("counter").value = step
+               step += 1
+           }
+           function start() {  
+                if (intervalId == null) {
+                    count()
+                    intervalId = setInterval(count,1000)
+                }
+           }
+           function stop() {  
+               clearInterval(intervalId)
+               intervalId = null
+           }
+           return {startCount: start, stopCount: stop }
+       })()
+    </script>
+</body>
+</html>

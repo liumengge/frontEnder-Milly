@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>骰子布局</title>
+    <style>
+        /* 单个骰子 */
+        /* .box {
+            height: 100px;
+            width: 100px;
+            background-color: grey;
+            border-radius: 5px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .item1 {
+            height: 20px;
+            width: 20px;
+            background-color: black;
+            border-radius: 50%;
+        } */
+
+        /* 三个骰子 */
+        .box {
+            height: 100px;
+            width: 100px;
+            background-color: grey;
+            border-radius: 5px;
+            display: flex;
+            justify-content: center;
+        }
+        .item {
+            height: 20px;
+            width: 20px;
+            background-color: black;
+            border-radius: 50%;
+        }
+        .item:nth-of-type(2) {
+            margin-left: auto;
+            margin-right: auto;
+            /* 单独使用以下语句只能保证第二个点在垂直方向上的居中 */
+            align-self: center;
+        }
+        .item:nth-of-type(3) {
+            align-self: flex-end;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="box">
+        <span class="item"></span>
+        <span class="item"></span>
+        <span class="item"></span>
+    </div>
+</body>
+</html>

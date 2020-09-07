@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>骰子布局</title>
+    <style>
+        .box {
+            width: 80px;
+            height: 80px;
+            background-color: grey;
+            border-radius: 5px;
+            display: flex;
+            flex-wrap: wrap;
+            /* 定义多根轴线的对齐方式 */
+            align-content: space-between;  
+        }
+        .column {
+            flex-basis: 100%;
+            display: flex;
+            justify-content: space-between;
+        }
+        .item {
+            height: 20px;
+            width: 20px;
+            background-color: white;
+            border-radius: 50%;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="box">
+        <div class="column">
+        <span class="item">1</span>
+        <span class="item">2</span>
+    </div>
+    <div class="column">
+        <span class="item">3</span>
+        <span class="item">4</span>
+    </div>
+    </div>
+</body>
+</html>

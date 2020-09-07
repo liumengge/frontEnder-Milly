@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>圣杯布局</title>
+    <style>
+        .HolyGrail {
+            display: flex;
+            min-height: 100vh;
+            flex-direction: column;
+        }
+
+        header,
+        footer {
+            flex: 1;
+            height: 30px;
+            background-color: rgba(0, 0, 0, 0.3);
+        }
+
+        .HolyGrail-body {
+            display: flex;
+            flex: 1;
+        }
+
+        .HolyGrail-content {
+            flex: 1;
+            background-color: rosybrown;
+        }
+
+        .HolyGrail-nav, .HolyGrail-ads {
+            /* 两个边栏的宽度设为12em */
+            flex: 0 0 12em;
+            background-color: goldenrod;
+        }
+
+        .HolyGrail-nav {
+            /* 导航放到最左边, order属性在flex布局中定义项目的排列顺序，数值越小，排列越靠前，默认为0 */
+            order: -1;  
+            background-color: seagreen;
+        }
+
+        /* 如果是小屏幕，躯干的三栏自动变为垂直叠加。 */
+        @media (max-width: 768px) {
+            .HolyGrail-body {
+                flex-direction: column;
+                flex: 1;
+            }
+            .HolyGrail-nav,
+            .HolyGrail-ads,
+            .HolyGrail-content {
+                flex: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header></header>
+    <div class="HolyGrail-body">
+        <!-- 中间的文章主体部分 -->
+        <main class="HolyGrail-content">
+            撒娇的号山东撒娇的号山东撒娇的号山东撒娇的号山东撒娇的号山东
+            撒娇的号山东撒娇的号山东撒娇的号山东撒娇的号山东撒娇的号山东
+            撒娇的号山东撒娇的号山东撒娇的号山东撒娇的号山东撒娇的号山东
+            撒娇的号山东撒娇的号山东撒娇的号山东撒娇的号山东撒娇的号山东
+        </main>
+
+        <!-- 左侧导航 -->
+        <nav class="HolyGrail-nav">
+            <ul>
+                <li>苹果</li>
+                <li>香蕉</li>
+                <li>梨子</li>
+                <li>西瓜</li>
+                <li>芒果</li>
+            </ul>
+        </nav>
+        <!-- 右边 -->
+        <aside class="HolyGrail-ads"></aside>
+    </div>
+    <footer></footer>
+</body>
+</html>

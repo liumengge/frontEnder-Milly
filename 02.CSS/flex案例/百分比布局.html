@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>百分比布局</title>
+    <style>
+        .Grid {
+            display: flex;
+            background-color: grey;
+            text-align: center;
+        }
+        .Grid-cell {
+            flex: 1;
+        }
+        .Grid-cell.u-1of3 {
+            flex: 0 0 10%;
+            background-color: rgb(58, 199, 241);
+            
+        }
+        .Grid-cell.u-1of4 {
+            flex: 0 0 25%;
+            background-color: yellowgreen;
+        }
+    </style>
+</head>
+<body>
+    <div class="Grid">
+        <div class="Grid-cell u-1of4">111111</div>
+        <div class="Grid-cell">222222</div>
+        <div class="Grid-cell u-1of3">333333</div>
+    </div>
+
+</body>
+</html>
