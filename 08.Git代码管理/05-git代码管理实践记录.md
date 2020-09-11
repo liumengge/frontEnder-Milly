@@ -1,3 +1,9 @@
+- [`git reset` 与 `git revert`](#git-reset-与-git-revert)
+  - [`git reset`历史版本切换](#git-reset历史版本切换)
+  - [`git revert`撤销操作](#git-revert撤销操作)
+  - [`git revert` 和 `git reset`的区别](#git-revert-和-git-reset的区别)
+- [在实际开发中，不小心在master上直接做任务开发了，但是为了避免后序各种问题我们还是在自己分支上开发比较好，该怎么办呢？](#在实际开发中不小心在master上直接做任务开发了但是为了避免后序各种问题我们还是在自己分支上开发比较好该怎么办呢)
+
 ## `git reset` 与 `git revert`
 
 > 开开心心补充项目，到了push的时候有个文件太大了push不上去，就想着这个文件大家也能找到的，干脆不要上传了，可是我已经commit了，怎么回到之前的commit呢？
@@ -36,5 +42,11 @@
 - 在回滚这一操作上看，效果差不多。但是在日后继续merge以前的老版本时有区别。因为`git revert`是用一次逆向的commit“中和”之前的提交，因此日后合并老的branch时，导致这部分改变不会再次出现，但是`git reset`是直接把某些commit在某个branch上删除，因而和老的branch再次merge时，这些被回滚的commit应该还会被引入。 
 - `git reset` 是把HEAD向后移动了一下，而`git revert`是HEAD继续前进，只是新的commit的内容和要revert的内容正好相反，能够抵消要被revert的内容。
 
+## 在实际开发中，不小心在master上直接做任务开发了，但是为了避免后序各种问题我们还是在自己分支上开发比较好，该怎么办呢？
+
+- 在master上完成任务开发(或者没有全部完成也行)，完成commit，创建开发分支`git branch feature-git-test`(这个操作的意思是让feature-git-test分支指向最近的提交，但是还停留在master分支上)
+- `git reset --hard origin/master`(将master回退到origin/master，并忽略所有新提交，那些提交保留在feature-git-test分支上)
+- `git checkout feature-git-test`(切换到自己的开发分支上，其中就保留了最近的所有工作)
+- `git push origin feature-git-test`(将本地分支推至远端)
  
  
