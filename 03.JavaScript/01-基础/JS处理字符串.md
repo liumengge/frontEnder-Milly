@@ -1,0 +1,16 @@
+## 字符串常用方法总结
+- `str.concat(str2, str3)`：实现字符串拼接
+- `str.includes('abc')`： 判断字符串abc是否包含在str字符串中，返回值是布尔值，区分大小写
+- `str.indexOf(item, index)`：返回item第一次在字符串str中出现时的索引，从index处开始搜索，如果没有则返回-1
+- `str.lastIndexOf(item, index)`：返回item在str中最后一次出现时的索引，从index开始从后往前找
+- `str.charAt(index)`： 返回str中index位置处的字符
+- `str[index]`：获取字符串中对应索引位置的字符
+- `str.substring(start,end)`：截取字串，含开始，不含结束，end可以小于start
+- `str.slice(start,end)`：截取字串，含开始，不含结束，end不可以小于start，如果小于的话，截取的时空字符串
+- `str.substr(start,length)`：从start开始，截取长度为length的字符串
+- `str.trim()`：去首尾空格
+- `str.trimStart()、str.trimLeft()`： 去开头空格
+- `str.trimEnd()、str.trimRight()`: 去除尾部空格
+- `str.split('-')`：按特定的符号分割成字符串数组！
+- `str.toLowerCase()` ： 转换成小写的形式
+- `str.toUpperCase()` ： 转换成大写的形式
