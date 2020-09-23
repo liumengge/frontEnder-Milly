@@ -12,6 +12,10 @@
 - [清除浮动的方法](#清除浮动的方法)
 - [CSS性能优化](#css性能优化)
 - [浏览器如何解析CSS选择器](#浏览器如何解析css选择器)
+- [CSS三列布局](#css三列布局)
+  - [两边固定，中间自适应](#两边固定中间自适应)
+  - [中间固定，两边自适应](#中间固定两边自适应)
+- [CSS两列布局 - 左边固定，右边自适应](#css两列布局---左边固定右边自适应)
 
 ---
 
@@ -45,3 +49,188 @@
 ### CSS性能优化
 
 ### 浏览器如何解析CSS选择器
+
+### CSS三列布局
+
+
+
+#### 两边固定，中间自适应
+  
+1. 使用position实现
+
+- 思路：center居中，利用margin为左右两边留出位置，左右使用绝对定位
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>position实现三列布局</title>
+    <style>
+        .box {
+            width: 100%;
+            height: 100%;
+        }
+        .left {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 200px;
+            height: 200px;
+            background-color: red;
+        }
+        .center {
+            margin: 0 200px;
+            background-color: chartreuse;
+        }
+        .right {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 200px;
+            height: 400px;
+            background-color: blueviolet;
+        }
+    </style>
+</head>
+<body>
+    <div class="box">
+        <div class="left">left</div>
+        <div class="center">center</div>
+        <div class="right">right</div>
+    </div>
+</body>
+</html>
+```
+- 这种方式，在改变窗口大小的时候，右边的盒子会盖住左边的盒子
+
+2. 使用float实现
+
+- 左右元素浮动，注意：中间元素必须置于二者之后
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>float实现三列布局</title>
+    <style>
+        .left, .right {
+            width: 200px;
+            height: 200px;
+            background-color: chocolate;
+        }
+        .left {
+            float: left;
+        }
+        .right {
+            float: right;
+        }
+        .center {
+            margin: 0 auto;
+            height: 200px;
+            background-color: darkgoldenrod;
+            overflow: hidden;
+        }
+        .dd {
+            width: 50px;
+            height: 50px;
+            background-color: darkgreen;
+        }
+    </style>
+</head>
+<body>
+    <div class="left">left</div>
+    <div class="right">right</div>
+    <div class="center">
+        <p>asdasdasdasdasfsadfdf</p>
+        <div class="dd"></div>
+    </div>
+
+</body>
+</html>
+```
+
+3. 使用flex实现
+
+```javascript
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>flex实现三列布局</title>
+    <style>
+        .box {
+          width: 100%;
+          height: 100px;
+          display: flex;
+          margin: 10px;
+        }
+        .left, .right {
+          width: 200px;
+          height: 100px;
+          margin: 10px;
+          background-color: #999;
+        }
+        .center {
+          flex: 1;
+          height: 100px;
+          margin: 10px;  /*左右margin不会叠加*/
+          background-color: #f00;
+        }
+    </style>
+</head>
+<body>
+    <div class="box">
+        <div class="left">left</div>
+        <div class="center">center</div>
+        <div class="right">right</div>
+    </div>
+</body>
+</html>
+```
+
+#### 中间固定，两边自适应
+
+```html
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			* {
+				margin: 0;
+				padding: 0;
+			}
+			.box {
+				display: flex;
+			}
+			.center {
+				width: 800px;
+				text-align: center;
+				background: #ccc;
+			}
+			.left,.right {
+				/*flex-grow 属性用于设置或检索弹性盒的扩展比率。*/
+        flex-grow: 1;
+        line-height: 30px;
+        background: red;
+      }
+		</style>
+	</head>
+	<body>
+		<div class="box">
+			<div class="left">left</div>
+			<div class="center">center</div>
+			<div class="right">right</div>
+		</div>
+	</body>
+</html>
+```
+
+### CSS两列布局 - 左边固定，右边自适应
