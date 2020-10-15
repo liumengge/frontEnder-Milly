@@ -5,7 +5,13 @@
   - [JS中AJAX的异步性](#js中ajax的异步性)
     - [发送ajax请求的原理](#发送ajax请求的原理)
   - [Promise基础语法](#promise基础语法)
-  - [手写Promise](#手写promise)
+  - [Promise.all(arr) 与 Promise.race(arr)](#promiseallarr-与-promiseracearr)
+  - [async/await](#asyncawait)
+  - [Promise A+ 规范](#promise-a-规范)
+    - [核心代码实现](#核心代码实现)
+    - [then实现](#then实现)
+    - [catch与静态方法resolve/reject/all实现](#catch与静态方法resolverejectall实现)
+    - [测试](#测试)
 
 ## Event Loop
 
@@ -498,6 +504,47 @@ let p3 = p2.then(result => {
   - 方法中如果返回一个新的PROMISE实例，返回这个实例的结果是成功还是失败，也决定了当前实例是成功还是失败
   - 剩下的情况基本上都是让实例变为成功的状态 (方法返回的结果是当前实例的value值：上一个then中方法返回的结果会传递到下一个then的方法中)
 
+练习：
+```javascript
+new Promise(resolve => {
+    resolve(1)
+}).then(result => {
+    console.log(`成功：${result}`)
+    return result * 10
+}, reason => {
+    console.log(`失败：${reason}`)
+}).then(result => {
+    console.log(`成功：${result}`)
+    return result * 10
+}, reason => {
+    console.log(`失败：${reason}`)
+})
+
+// 成功：1
+// 成功：10
+```
+---
+
+```javascript
+new Promise(resolve => {
+    resolve(a)
+}).then(result => {
+    console.log(`成功：${result}`)
+    return result * 10
+}, reason => {
+    console.log(`失败：${reason}`)
+}).then(result => {
+    console.log(`成功：${result}`)
+    return result * 10
+}, reason => {
+    console.log(`失败：${reason}`)
+})
+
+// 失败：ReferenceError: a is not defined
+// 成功：undefined
+```
+---
+
 ```javascript
 Promise.resolve(10).then(result => {
     console.log(`成功：${result}`)
@@ -509,15 +556,180 @@ Promise.resolve(10).then(result => {
 }, reason => {
     console.log(`失败：${reason}`)
 })
+// 成功：10
+// 失败：100
+```
+---
+
+```javascript
+Promise.reject(10).then(result => {
+    console.log(`成功：${result}`)
+    return result * 10
+}).then(null, reason => {
+    console.log(`失败：${reason}`)
+})
+// 失败：10
+```
+- TEHN中也可以只写一个或者不写函数
+  - `.then(fn1)`：如果只写一个函数，就只表示成功的函数
+  - `.then(null, fn2)`：表示成功的函数为空，失败的函数为fn2，但是实际项目中一般不会这样写，而是用catch
+- 遇到一个then，要执行成功或者失败的方法，如果此方法并没有在当前then中被定义，则顺延到下一个对应的函数
+```javascript
+Promise.reject(10).then(result => {
+    console.log(`成功：${result}`)
+    return result * 10
+}).catch(reason => {
+    console.log(`失败：${reason}`)
+})
+// 失败：10
+```
+- `Promise.prototype.catch(fn)`等价于`.then(null, fn2)`
+```javascript
+Promise.resolve(10).then(result => {
+    console.log(a)  // => 报错
+}).catch(reason => {
+    console.log(`失败：${reason}`)
+})
+// 失败：ReferenceError: a is not defined
+```
+---
+
+`dir(Promise)`看一下Promise：
+![](../../images/JS/Promise-dir.png)
+
+- 原型上的方法：`catch、finally、then`
+- 实例对象上的方法：`all、race、resolve、reject`
+
+### Promise.all(arr) 与 Promise.race(arr)
+- 输入参数：一个数组，要求这个数组中的每一项都是一个新的Promise实例
+- Promise.all功能：`Promise.all(arr)`返回的结果是一个Promise实例(称为ALL实例)，等待数组中所有的实例状态都为成功时才会让"ALL实例"是成功状态，VALUE是一个集合，存储着arr中每一个实例返回的结果；凡是arr中有一个实例状态为失败，"ALL实例"的状态也是失败。
+- Promise.race功能：arr数组中不管哪一个先处理完，处理完的结果作为`RACE实例(指的是Promise.race的结果)`
+
+```javascript
+let p1 = Promise.resolve(1)
+
+let p2 = new Promise(resolve => {
+    setTimeout(_ => {
+        resolve(2)
+    }, 1000)
+})
+
+let p3 = Promise.reject(3)
+
+Promise.all([p1, p2, p3]).then(result => {
+    console.log(`成功：${result}`)
+}).catch(reason => {
+    console.log(`失败：${reason}`)
+})
+// 失败：3
 ```
 
-- TEHN中也可以只写一个或者不写函数
+```javascript
+let p1 = Promise.resolve(1)
 
+let p2 = new Promise(resolve => {
+    setTimeout(_ => {
+        resolve(2)
+    }, 1000)
+})
 
+let p3 = Promise.reject(3)
 
-### 手写Promise
+Promise.all([p2, p1]).then(result => {
+    // 返回的结果是按照ARR中编写实例的顺序组合在一起的
+    // [2,1]
+    console.log(`成功：${result}`)
+}).catch(reason => {
+    console.log(`失败：${reason}`)
+})
+// 成功：2,1
+```
+- 实际项目中使用then/catch比较少，ES7中提供了一个语法糖：async/await
 
+### async/await
 
+```javascript
+async function fn() {
+    return 10
+}
+console.log(fn())
+```
+- async是让一个普通函数返回的结果变为`status = resolved`并且`value = return值`Promise实例
+- async 最主要的作用是配合await使用的，因为一旦在函数中使用await，那么当前的函数必须用async修饰
+
+```javascript
+let p1 = Promise.resolve(100)
+
+let p2 = new Promise(resolve => {
+    setTimeout(_ => {
+        resolve(2)
+    }, 1000)
+})
+
+let p3 = Promise.reject(3)
+
+async function fn() {
+    console.log(1)
+    let result = await p1
+    console.log(result)
+}
+
+fn()
+console.log(2)
+// 输出结果：1 2 100
+```
+- await会等待当前Promise的返回结果，只有返回的状态是resolved情况，才会把返回结果赋值给result
+- await是异步编程(微任务)：当代码执行到此行时先把此行执行，构建一个异步的微任务(等待Promise返回结果，并且await后面的代码语句也都会被列到任务队列中)
+
+```javascript
+let p1 = Promise.resolve(100)
+
+let p2 = new Promise(resolve => {
+    setTimeout(_ => {
+        resolve(200)
+    }, 1000)
+})
+
+let p3 = Promise.reject(3)
+
+async function fn() {
+    console.log(1)
+    let result = await p2
+    console.log(result)
+
+    let AA = await p1
+    console.log(AA)
+}
+
+fn()
+console.log(2)
+
+// 1 2 200 100
+```
+
+```javascript
+let p1 = Promise.resolve(100)
+
+let p2 = new Promise(resolve => {
+    setTimeout(_ => {
+        resolve(200)
+    }, 1000)
+})
+
+let p3 = Promise.reject(3)
+
+async function fn() {
+    let reason = await p3
+    console.log(reason)
+}
+
+fn()
+```
+- 如果Promise是失败状态，则await不会接收其返回结果，await后面的代码也不会再继续执行(await只能处理promise为成功状态的时候)，处理失败状态的Promise还是要用catch
+
+---
+
+字节跳动面试题：
 ```javascript
 async function async1() {
     console.log('async1 start')
@@ -545,4 +757,354 @@ new Promise(function(resolve) {
 })
 
 console.log('script end')
+```
+![](../../images/JS/同步异步编程-字节跳动.png)
+- 浏览器中的异步编程
+  - 宏任务
+    - 定时器
+    - 事件绑定
+    - AJAX/跨域中的异步(HTTP请求异步)
+  - 微任务
+    - Promise，注意也不是new Promise，是resolve/reject
+    - await
+    - Generator生成器中的yeild等
+
+```javascript
+console.log(1)
+
+setTimeout(_ => { console.log(2) }, 1000)
+
+async function fn() {
+    console.log(3)
+    setTimeout(_ => {  console.log(4) }, 20)
+    return Promise.reject()
+}
+
+async function run() {
+    console.log(5)
+    await fn()
+    console.log(6)
+}
+
+run()
+
+// 需要执行80ms左右
+// console.time('AA')
+for (let i = 0; i < 90000000; i++) {}
+// console.timeEnd('AA')
+
+setTimeout(_ => {
+    console.log(7)
+
+    new Promise(resolve => {
+        console.log(8)
+        resolve()
+    }).then(_ => { console.log(9) })
+}, 0)
+
+console.log(10)
+```
+![](../../images/JS/同步异步编程2.png)
+
+### Promise A+ 规范
+
+#### 核心代码实现
+
+```javascript
+class MyPromise {
+    constructor(executor) {
+        // 初始属性值
+        this.status = 'pending';
+        this.value = undefined;
+
+        // 用来存储基于THEN指定的成功或者失败的方法
+        this.resolvedArr = [];
+        this.rejectedArr = [];
+
+        // 定义RESOLVE/REJECT方法用来改变PROMISE实例的状态和结果
+        let change = (status, value) => {
+            // 状态一但改变过，再改变则无效
+            if (this.status !== 'pending') return;
+            this.value = value;
+            this.status = status;
+            // 改变完成状态后，把基于THEN指定的对应方法执行
+            let fnArr = status === 'resolved' ? this.resolvedArr : this.rejectedArr;
+            fnArr.forEach(item => {
+                if (typeof item !== 'function') return;
+                item(this.value);
+            });
+        };
+
+        // 为了保证执行RESOLVE/REJECT的时候，已经通过THEN把需要执行的方法弄好了，我们判断处理（没有方法的时候，我们让改变状态的操作延迟进行）
+        let resolve = result => {
+            if (this.resolveArr.length > 0) {
+                change('resolved', result);
+                return;
+            }
+            let delayTimer = setTimeout(_ => {
+                change('resolved', result);
+                clearTimeout(delayTimer);  // 
+            }, 0);
+        };
+
+        let reject = reason => {
+            if (this.rejectArr.length > 0) {
+                change('rejected', reason);
+                return;
+            }
+            let delayTimer = setTimeout(_ => {
+                change('rejected', reason);
+                clearTimeout(delayTimer);
+            }, 0);
+        };
+
+        // 每一次NEW PROMISE都会立即执行EXECUTOR函数
+        executor(resolve, reject);
+    }
+
+    // MyPromise.prototype.then
+    then(resolvedFn, rejectedFn) {
+        this.resolvedArr.push(resolvedFn);
+        this.rejectedArr.push(rejectedFn);
+    }
+}
+```
+
+#### then实现
+
+```javascript
+class MyPromise {
+    constructor(executor) {
+        this.status = 'pending';
+        this.value = undefined;
+        this.resolvedArr = [];
+        this.rejectedArr = [];
+
+        let change = (status, value) => {
+            if (this.status !== 'pending') return;
+            this.value = value;
+            this.status = status;
+            let fnArr = status === 'resolved' ? this.resolvedArr : this.rejectedArr;
+            fnArr.forEach(item => {
+                if (typeof item !== 'function') return;
+                item(this.value);
+            });
+        };
+
+        let resolve = result => {
+            if (this.resolvedArr.length > 0) {
+                change('resolved', result);
+                return;
+            }
+            let delayTimer = setTimeout(_ => {
+                change('resolved', result);
+                clearTimeout(delayTimer);
+            }, 0);
+        };
+
+        let reject = reason => {
+            if (this.rejectedArr.length > 0) {
+                change('rejected', reason);
+                return;
+            }
+            let delayTimer = setTimeout(_ => {
+                change('rejected', reason);
+                clearTimeout(delayTimer);
+            }, 0);
+        };
+
+        try {
+            executor(resolve, reject);
+        } catch (err) {
+            reject(err.message);
+        }
+    }
+
+    then(resolveFn, rejectFn) {
+        // 实现then链的顺延：
+            // 1. 调用then方法时，如果没有传递成功时调用的方法，会顺延到下一个then对应的成功
+            // 2. 如果没有传递失败状态时需要调用的方法，会顺延到下一个失败
+        if (typeof resolvedFn !== 'function') {
+            resolvedFn = result => {
+                return result;
+            };
+        }
+
+        if (typeof rejectedFn !== 'function') {
+            rejectedFn = reason => {
+                // throw new Error(reason);
+                return new MyPromise((_, reject) => {
+                    reject(reason);
+                });
+            };
+        }
+
+        // then链：每一次执行THEN都会返回一个新的PROMISE实例的（实现了THEN的链式写法）
+            // 1. resolvedArr/rejectedArr不直接存放resolveFn/rejectFn，因为要监听这两个方法的返回结果和是否报错，因为只有这样才能控制新实例中到底执行resolve/reject，处理方法是：先存放匿名函数，在匿名函数中把传递的resolvedFn/rejectFn执行
+            // 2. 捕获方法执行是否报错
+            // 3. 方法返回的如果是新的Promise实例，新实例成功或者失败的状态也是执行resolve/reject的标准
+        return new MyPromise((resolve, reject) => {
+            // 只要执行新实例的executor函数中的resolve/reject就能知道新的实例是成功还是失败的
+            this.resolvedArr.push(result => {
+                try {
+                    // 不报错，则接受方法的返回结果，会根据结果判断成功还是失败
+                    let x = resolveFn(result);
+                    x instanceof MyPromise ? x.then(resolve, reject) : resolve(x);
+                } catch (err) {
+                    //方法执行报错，也代表新实例是失败的
+                    reject(err.message);
+                }
+            });
+
+            this.rejectedArr.push(reason => {
+                try {
+                    let x = rejectFn(reason);
+                    x instanceof MyPromise ? x.then(resolve, reject) : resolve(x);
+                } catch (err) {
+                    reject(err.message);
+                }
+            });
+        });
+    }
+}
+```
+
+#### catch与静态方法resolve/reject/all实现
+
+```javascript
+class MyPromise {
+    constructor(executor) {
+        this.status = 'pending';
+        this.value = undefined;
+        this.resolvedArr = [];
+        this.rejectedArr = [];
+
+        let change = (status, result) => {
+            if (this.status !== 'pending') return;
+            this.status = status;
+            this.value = result;
+            let arr = status === 'rejected' ? this.rejectedArr : this.resolvedArr;
+            arr.forEach(item => (typeof item === 'function' ? item(this.value) : null));
+        };
+        let resolve = result => {
+            if (this.resolvedArr.length > 0) {
+                change('resolved', result);
+                return;
+            }
+            let delayTimer = setTimeout(() => {
+                clearTimeout(delayTimer);
+                change('resolved', result);
+            }, 0);
+        };
+        let reject = reason => {
+            if (this.rejectedArr.length > 0) {
+                change('rejected', reason);
+                return;
+            }
+            let delayTimer = setTimeout(() => {
+                clearTimeout(delayTimer);
+                change('rejected', reason);
+            }, 0);
+        };
+
+        try {
+            executor(resolve, reject);
+        } catch (error) {
+            reject(error);
+        }
+    }
+
+    then(resolvedFn, rejectedFn) {
+        if (typeof resolvedFn !== 'function') {
+            resolvedFn = result => {
+                return result;
+            };
+        }
+        if (typeof rejectedFn !== 'function') {
+            rejectedFn = reason => {
+                return new MyPromise((resolve, reject) => {
+                    reject(reason);
+                });
+            };
+        }
+
+        return new MyPromise((resolve, reject) => {
+            this.resolvedArr.push(() => {
+                try {
+                    let x = resolvedFn(this.value);
+                    x instanceof MyPromise ? x.then(resolve, reject) : resolve(x);
+                } catch (error) {
+                    reject(error);
+                }
+            });
+            this.rejectedArr.push(() => {
+                try {
+                    let x = rejectedFn(this.value);
+                    x instanceof MyPromise ? x.then(resolve, reject) : resolve(x);
+                } catch (error) {
+                    reject(error);
+                }
+            });
+        });
+    }
+
+    catch (rejectedFn) {
+        // catch(rejectedFn) === then(null,rejectedFn)
+        return this.then(null, rejectedFn);
+    }
+
+    /* 静态方法 */
+    static resolve(result) {
+        return new MyPromise(resolve => {
+            resolve(result);
+        });
+    }
+
+    static reject(reason) {
+        return new MyPromise((_, reject) => {
+            reject(reason);
+        });
+    }
+
+    static all(arr) {
+        return new MyPromise((resolve, reject) => {
+            let index = 0,
+                results = [];
+            for (let i = 0; i < arr.length; i++) {
+                let item = arr[i];
+                if (!(item instanceof MyPromise)) continue;
+                item.then(result => {
+                    index++;
+                    results[i] = result;   // 顺序保持一致
+                    if (index === arr.length) {
+                        resolve(results);
+                    }
+                }).catch(reason => {
+                    // 只要有一个失败，整体就是失败
+                    reject(reason);
+                });
+            }
+        });
+    }
+}
+```
+
+#### 测试
+
+```javascript
+new MyPromise((resolve, reject) => {
+    setTimeout(_ => {
+        resolve(100)
+        // reject('error')
+    }, 1000)
+}).then(result => {
+    console.log(result)
+    return 200
+}, reason => {
+    console.log(reason)
+}).then(result => {
+    console.log(result)
+}, reason => {
+    console.log(reason)
+})
 ```
