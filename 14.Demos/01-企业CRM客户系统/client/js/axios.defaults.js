@@ -20,7 +20,7 @@ axios.interceptors.response.use(function onFulfilled(response) {
 	// response: {config/request/headers/data...} 
 	return response.data;
 }, function onRejected(reason) {
-	// 失败：返回状态码是4/5开头的，再或者根本就没有发送到服务器上（在这里统一处理此类型失败的提示）
+	// 失败：返回状态码是4/5开头的，再或者根本就没有发送到服务器上(在这里统一处理此类型失败的提示)
 	return Promise.reject(reason);
 });
 // 自定义响应状态码：axios认为只有状态码是2开头的才是成功，但是我们可以自己定义，此处我定义的是2/3开头都算成功

@@ -5,9 +5,9 @@ URL：/user/login
 METHOD：POST
 PARAMS：account=xxx&password=xxx
 RESULT：{
-	code:0  //=>0成功 1失败
-	codeText:'OK',  //=>CODE状态码描述
-	power:'xxx|xxx' //=>用户权限
+	code:0  // => 0 成功 1 失败
+	codeText:'OK',  // => CODE状态码描述
+	power:'xxx|xxx' // => 用户权限
 }
 ----
 检测是否登录
@@ -37,15 +37,15 @@ RESULT：{
 	codeText:'OK',
 	data:[{
 		id: 1,
-		name: "珠峰培训",
+		name: "寒锐伊培训",
 		sex: 0,
-		email: "1144709265@qq.com",
-		phone: "18310612838",
+		email: "785965196@qq.com",
+		phone: "15951815815",
 		departmentId: 1,
 		department: '总裁办',
 		jobId: 1,
 		job: '管理员',
-		desc: "珠峰培训最高管理员账户"
+		desc: "寒锐伊培训最高管理员账户"
 	},...]
 }
 ----
@@ -58,15 +58,15 @@ RESULT：{
 	codeText:'OK',
 	data:{
 		id: 1,
-		name: "珠峰培训",
+		name: "寒锐伊",
 		sex: 0,
-		email: "1144709265@qq.com",
-		phone: "18310612838",
+		email: "785965196@qq.com",
+		phone: "15951815815",
 		departmentId: 1,
 		department: '总裁办',
 		jobId: 1,
 		job: '管理员',
-		desc: "珠峰培训最高管理员账户"
+		desc: "寒锐伊培训最高管理员账户"
 	}
 }
 ----
