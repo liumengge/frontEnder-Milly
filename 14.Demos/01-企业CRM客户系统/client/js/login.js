@@ -35,7 +35,7 @@ $(function () {
 					window.location.href = 'index.html';
 				}
 			});
-			return;
+			return; 
 		}
 		// 登录失败
 		alert('账号和密码不匹配，请重新输入！');

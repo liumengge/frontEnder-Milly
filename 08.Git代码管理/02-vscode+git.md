@@ -1,8 +1,4 @@
-- [Git相关插件安装与配置](#git相关插件安装与配置)
+- [VSCode与Git](#vscode与git)
 
-## Git相关插件安装与配置
-
-
-
-
+## VSCode与Git
 

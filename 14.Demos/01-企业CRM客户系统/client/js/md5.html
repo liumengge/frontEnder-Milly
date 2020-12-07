@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>什么是MD5加密</title>
+</head>
+<body>
+  <script src="md5.min.js"></script>
+  <script>
+    //  MD5是不可逆转的加密，密码类都需要不可逆转的加密
+    let str = '1234567890'
+    let md5Str = md5(str)
+    console.log(md5Str)   // "e807f1fcf82d132f9bb018ca6738a19f"
+
+    // 百度MD5解密：https://cmd5.com/   有一个在线加密解密工具， 是可以解密的
+
+    // 网上的解规则都是碰撞检测出来的，
+    // 因为简单的字符串的加密结果是可以碰撞检测出来的，所以基于MD5加密并不是绝对安全的
+      // + 尽可能要求用户的密码复杂一些, 比如：数字+大小写字母
+      // + 一般，加密就的结果会在服务器进行二次加密，二次加密规则是自定义的
+
+    // 有些信息需要可逆转的加密，可逆转的加密规则一般是自己定义的
+  </script>
+</body>
+</html>
