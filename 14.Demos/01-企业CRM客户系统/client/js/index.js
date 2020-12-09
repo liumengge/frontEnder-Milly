@@ -11,25 +11,27 @@ $plan.add(function (baseInfo) {
 	$baseBoxSpan.html(`您好：${baseInfo.name}`);
 
 	// 退出登录
-	$signOut.click(function () { 
+	$signOut.click(function () {
+		// 提前定义
+		let handled = async type => {
+			if (type !== 'CONFIRM') return;
+			// 点击确定按钮
+			let result = await axios.get('/user/signout');
+			if (parseInt(result.code) !== 0) {
+				alert('退出登录失败，请稍后再试！');
+				return;
+			}
+			alert('退出登录成功，即将退出到登录页面！', {
+				handled: _ => {
+					window.location.href = 'login.html';
+				}
+			});
+		}
+
 		alert('您确定要退出登录吗？', {
 			confirm: true,
-			handled: async type => {
-				// 点击确定按钮
-				if (type === 'CONFIRM') {
-					let result = await axios.get('/user/signout');
-					if (parseInt(result.code) !== 0) {
-						alert('退出登录失败，请稍后再试！');
-						return;
-					}
-					alert('退出登录成功，即将退出到登录页面！', {
-						handled: _ => {
-							window.location.href = 'login.html';
-						}
-					});
-				}
-			}
-		})
+			handled  // ES6语法
+		});
 	});
 })
 
