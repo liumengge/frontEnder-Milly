@@ -51,6 +51,17 @@ $(async function () {
 	}
 
 	// 2. 获取当前登录用户的基本信息和权限信息
+	// 优化：使用本地存储进行优化
+	let baseInfo = localStorage.getItem('baseInfo');
+	if (baseInfo) {
+		let {time, data} = JSON.parse(baseInfo);
+		if ((new Date().getTime() - time) < 10 * 1000) {
+			// 存储的信息没有过期
+			$plan.fire(data);
+			return;
+		}
+	}
+
 	// 并发请求数组
 	let requestArr = [],
 			results;
@@ -84,9 +95,15 @@ $(async function () {
 	results[0]['power'] = results[1];
 	results = results[0];   // 现在的results是用户的基本信息对象
 	// console.log(results);
+	
+	// 存储到客户端本地，注意存储在本地的信息都是字符串
+	localStorage.setItem('baseInfo', JSON.stringify({
+		time: new Date().getTime,
+		data: results
+	}))
+
 	// 通知计划表中的方法执行
 	$plan.fire(results);
-
 });
 
 
