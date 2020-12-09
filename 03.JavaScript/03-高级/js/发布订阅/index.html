@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>发布订阅模式</title>
+  <script src="subscribe.js"></script>
+  <script>
+    // function fn1() {console.log('111111');}
+    // function fn2() {console.log('222222');}
+    // function fn3(a, b) {console.log('333333', a, b);}
+    // function fn4() {console.log('444444');}
+    // function fn5() {console.log('555555');}
+
+    // let sub = subscribe();
+    // sub.$on('Study', fn1);
+    // sub.$on('Study', fn2);
+    // sub.$on('Study', fn2);
+    // sub.$on('Study', fn3);
+    // sub.$on('Study', fn3);
+    // sub.$on('Study', fn4);
+    // sub.$on('Study', fn5);
+    // sub.$on('Study', fn5);
+
+
+    // setTimeout(_ => {
+    //   sub.$emit('Study', 100, 200);
+    // }, 2000);
+
+    function fn1() {console.log('111111');}
+    function fn2() {
+      console.log('222222');
+      // 第一次执行fn2后，把fn1和fn2从事件池中移除
+      sub.$off('Study', fn1);
+      sub.$off('Study', fn2);
+    }
+    function fn3(a, b) {console.log('333333', a, b);}
+    function fn4() {console.log('444444');}
+    function fn5() {console.log('555555');}
+
+    let sub = subscribe();
+    sub.$on('Study', fn1);
+    sub.$on('Study', fn2);
+    sub.$on('Study', fn2);
+    sub.$on('Study', fn3);
+    sub.$on('Study', fn3);
+    sub.$on('Study', fn4);
+    sub.$on('Study', fn5);
+    sub.$on('Study', fn5);
+
+
+    document.onclick = function () {
+      sub.$emit('Study', 100, 200)
+    };
+
+  </script>
+</head>
+<body>
+  
+</body>
+</html>
