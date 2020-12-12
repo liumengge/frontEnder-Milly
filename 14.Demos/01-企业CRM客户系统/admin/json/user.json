@@ -10,4 +10,40 @@
 	"desc": "寒锐伊培训最高管理员账户",
 	"time": 1568640222269,
 	"state": 0
+}, {
+	"id": 2,
+	"name": "Milly",
+	"password": "8376ac810bb9f231d28fcf1f",
+	"sex": 1,
+	"email": "785965196@qq.com",
+	"phone": "15934672839",
+	"departmentId": 3,
+	"jobId": 4,
+	"desc": "产品研发部门最高权限拥有者",
+	"time": 1568640222269,
+	"state": 0
+}, {
+	"id": 3,
+	"name": "SherlyTT",
+	"password": "8376ac810bb9f231d28fcf1f",
+	"sex": 1,
+	"email": "785965196@qq.com",
+	"phone": "13836472839",
+	"departmentId": 4,
+	"jobId": 6,
+	"desc": "后勤部门最高权限拥有者",
+	"time": 1568640222269,
+	"state": 0
+}, {
+	"id": 4,
+	"name": "小宝",
+	"password": "8376ac810bb9f231d28fcf1f",
+	"sex": 0,
+	"email": "785965196@qq.com",
+	"phone": "17882937485",
+	"departmentId": 2,
+	"jobId": 3,
+	"desc": "销售部门基层员工",
+	"time": 1568640222269,
+	"state": 0
 }]
