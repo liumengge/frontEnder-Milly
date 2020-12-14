@@ -88,10 +88,92 @@ let userAddModule = (function () {
     }
   };
 
+  // 表单校验
+  // 1. 用户名不能为空
+  let checkUserName = function () {  
+    let text = $username.val().trim(),
+        $spanusername = $('.spanusername');
+
+    if (text.length === 0) {
+      $spanusername.html('用户名不能为空！');
+      return false;
+    }
+
+    $spanusername.html('');
+    return true;
+  };
+  // 鼠标失去焦点的时候开始校验
+  $username.on('blur', checkUserName);
+
+  // 2. 邮箱校验 - 不能为空 + 格式校验
+  let checkUserEmail = function () {  
+    // 非空校验
+    let text = $useremail.val().trim(),
+        $spanuseremail = $('.spanuseremail');
+
+    if (text.length === 0) {
+      $spanuseremail.html('邮箱不能为空！');
+      return false;
+    }
+
+    // 邮箱格式校验 - 正则
+    let reg = /^\w+((-\w+)|(\.\w+))*@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+$/;
+    if (!reg.test(text)) {
+      $spanuseremail.html('邮箱格式不正确！');
+      return false;
+    }
+
+    $spanuseremail.html('');
+    return true;
+  };
+  $useremail.on('blur', checkUserEmail);
+
+  // 3. 手机号码校验 - 不能为空 + 格式校验
+  let checkUserPhone = function () {  
+    // 非空校验
+    let text = $userphone.val().trim(),
+        $spanuserphone = $('.spanuserphone');
+
+    if (text.length === 0) {
+      $spanuserphone.html('手机号码不能为空！');
+      return false;
+    }
+
+    // 手机号码格式校验 - 正则
+    let reg = /^[1]([3-9])[0-9]{9}$/;
+    if (!reg.test(text)) {
+      $spanuserphone.html('手机号码格式不正确！');
+      return false;
+    }
+
+    $spanuserphone.html('');
+    return true;
+  };
+  $userphone.on('blur', checkUserPhone);
+
+  // 4. 自我介绍校验 - 不能为空
+  let checkUserDesc = function () {  
+    let text = $userdesc.val().trim(),
+        $spanuserdesc = $('.spanuserdesc');
+
+    if (text.length === 0) {
+      $spanuserdesc.html('用户名不能为空！');
+      return false;
+    }
+
+    $spanuserdesc.html('');
+    return true;
+  };
+  $userdesc.on('blur', checkUserDesc);
+
+
   // 点击提交的时候需要完成的工作
   let handleSubmit = function () {  
     $submit.click(async function () {  
       // 1. 表单校验
+      if (!checkUserName() || !checkUserEmail() || !checkUserPhone() || !checkUserDesc()) {
+        return;
+      }
 
       // 2. 获取用户输入的信息
       let data = {
@@ -102,18 +184,10 @@ let userAddModule = (function () {
         departmentId: $userdepartment.val().trim(),
         jobId: $userjob.val().trim(),
         desc: $userdesc.val().trim()
-      }
+      };
       isUpdate ? data.userId = userId : null;
 
       // 3. 新增或者修改
-      // let result = null;
-      // if (isUpdate) {
-      //   // 修改
-      //   result = await axios.post('/user/update', data);
-      // }else {
-      //   // 新增
-      //   result = await axios.post('/user/add', data);
-      // }
       let result = isUpdate ? await axios.post('/user/update', data) : await axios.post('/user/add', data);
 
       if (parseInt(result.code) === 0) {
@@ -125,8 +199,9 @@ let userAddModule = (function () {
         return;
       }
       alert('当前操作失败，请稍后重试！');
+      return;
     });
-  };
+  }; 
 
   return {
     async init() {
