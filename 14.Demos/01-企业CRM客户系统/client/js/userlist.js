@@ -60,7 +60,7 @@ let userListModule = (function () {
                   <td class="w15">${phone}</td>
                   <td class="w20">${desc}</td>
                   <td class="w12">
-                    <a href="javascript:;">编辑</a>
+                    <a href="useradd.html?userId=${id}">编辑</a>
                     <a href="javascript:;">删除</a>
                     <a href="javascript:;">重置密码</a>
                   </td>
@@ -82,7 +82,7 @@ let userListModule = (function () {
         queryUserList();
       }
     });
-  }
+  };
 
   return {
     init() {
