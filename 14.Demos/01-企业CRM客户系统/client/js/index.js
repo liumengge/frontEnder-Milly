@@ -86,10 +86,10 @@ $plan.add(baseInfo => {
 		icon: 'icon-kehuguanli',
 		children: [{
 			name: '我的客户',
-			href: 'page/customerlist.html'
+			href: 'page/customerlist.html?lx=my'
 		}, {
 			name: '全部客户',
-			href: 'page/customerlist.html'
+			href: 'page/customerlist.html?lx=all'
 		}, {
 			name: '新增客户',
 			href: 'page/customeradd.html'
