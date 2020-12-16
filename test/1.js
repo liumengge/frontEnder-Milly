@@ -1,11 +1,10 @@
-// function combine(arr1, arr2) {  
+// function combine(arr1, arr2) {
 //     let res = arr1.concat(arr2)
 //     res.sort((a, b) => a-b)
 //     return res
 // }
 
 // console.log(combine([1,2,3], [1,2,3,4]))
-
 
 // function flatten(obj) {
 //     let maxKey = Math.max(...Object.keys(obj).map(Number));
@@ -20,21 +19,21 @@
 
 // console.log(flatten({ 1: 123, 2: 234, 8: 456 }));
 
-let arr = [10,15,13,2,6,4,2,9]
+let arr = [10, 15, 13, 2, 6, 2, 9];
 
 function getMid(arr) {
   let len = arr.length;
   arr.sort((a, b) => a - b);
-//   if (len % 2 !== 0) {  // 如果不能被整除，表示剩余的是奇数个，排序后取中间
-//     return arr[(len - 1) / 2];
-//   } else {
-//     let a = arr[len / 2] + arr[len / 2 - 1]
-//     return a / 2;
-//   }
-    return arr[(len - 1) / 2]
+  //   if (len % 2 !== 0) {  // 如果不能被整除，表示剩余的是奇数个，排序后取中间
+  //     return arr[(len - 1) / 2];
+  //   } else {
+  //     let a = arr[len / 2] + arr[len / 2 - 1]
+  //     return a / 2;
+  //   }
+  return arr[(len - 1) / 2];
 }
 
-// function moveArr(arr, index) {  
+// function moveArr(arr, index) {
 //     var r = []
 //     for (let i = 0; i < arr.length; i++) {
 //         if (i === index) {
@@ -47,11 +46,9 @@ function getMid(arr) {
 
 for (let i = 0; i < 8; i++) {
   let array = JSON.parse(JSON.stringify(arr));
-  array.splice(i, 1)
+  array.splice(i, 1);
   console.log(getMid(array));
 }
-
-
 
 // function getMid(arr) {
 //   let len = arr.length;
@@ -89,8 +86,3 @@ for (let i = 0; i < 8; i++) {
 //     }
 //     console.log(count)
 // }
-
-
-
-
-

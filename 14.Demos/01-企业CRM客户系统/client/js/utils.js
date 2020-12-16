@@ -357,3 +357,28 @@ window.alert = (function () {
 		return new Dialog(content, options);
 	}
 })();
+
+/*
+ * 本地存储 
+ */
+function _store(name, data) {
+	let result = {
+		time: new Date().getTime(),
+		data
+	}  
+	localStorage.setItem(name, JSON.stringify(result));
+}
+
+/*
+ * 检测本地存储内容是否超时
+ 	* 设置超时时间
+ */
+function _checkStore(name, time = 60000) {
+	let result = localStorage.getItem(name);
+	if (!result) return false;
+	result = JSON.parse(result);
+	let storeTime = result.time,
+			now = new Date().getTime();
+	if (now - storeTime > time) return false;
+	return result.data;
+}

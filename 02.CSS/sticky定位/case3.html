@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>堆叠效果实现</title>
+  <style>
+    .imgBox {
+      width: 300px;
+      height: 500px;
+      border-radius: 5px;
+      border: 2px solid rosybrown;
+      margin: 10px auto;
+      overflow: scroll;
+    }
+    .imgBox div {
+      width: 180px;
+      margin: 20px auto;
+      position: sticky;
+      top: 20px;
+    }
+    .imgBox div img {
+      width: 180px;
+    }
+  </style>
+</head>
+<body>
+  <div class="imgBox">
+    <div><img src="imgs/1.jpg" alt=""></div>
+    <div><img src="imgs/2.jpg" alt=""></div>
+    <div><img src="imgs/3.jpg" alt=""></div>
+    <div><img src="imgs/4.jpg" alt=""></div>
+    <div><img src="imgs/5.jpg" alt=""></div>
+    <div><img src="imgs/6.jpg" alt=""></div>
+  </div>
+</body>
+</html>

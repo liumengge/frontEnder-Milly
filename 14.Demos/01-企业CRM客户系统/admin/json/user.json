@@ -1,13 +1,1 @@
-[{
-	"id": 1,
-	"name": "寒锐伊",
-	"password": "8376ac810bb9f231d28fcf1f",
-	"sex": 0,
-	"email": "785965196@qq.com",
-	"phone": "15951815815",
-	"departmentId": 1,
-	"jobId": 1,
-	"desc": "寒锐伊培训最高管理员账户",
-	"time": 1568640222269,
-	"state": 0
-}]
+[{"id":1,"name":"寒锐伊","password":"8376ac810bb9f231d28fcf1f","sex":0,"email":"785965196@qq.com","phone":"15951815815","departmentId":1,"jobId":1,"desc":"寒锐伊培训最高管理员账户","time":1568640222269,"state":0},{"id":2,"name":"Milly","password":"8376ac810bb9f231d28fcf1f","sex":"1","email":"785965196@qq.com","phone":"15934672839","departmentId":"3","jobId":"4","desc":"产品研发部门最高权限拥有者自行车自行车","time":1568640222269,"state":0},{"id":3,"name":"Sherly","password":"8376ac810bb9f231d28fcf1f","sex":"1","email":"785965196@qq.com","phone":"13836472839","departmentId":"4","jobId":"7","desc":"知识点","time":1568640222269,"state":0},{"id":4,"name":"小宝","password":"8376ac810bb9f231d28fcf1f","sex":"1","email":"xiaobao@qq.com","phone":"17834534567","departmentId":"2","jobId":"2","desc":"成功晋升为销售部经理","time":1568640222269,"state":0},{"id":10,"name":"微软微软","password":"8376ac810bb9f231d28fcf1f","sex":"0","email":"123123@163.com","phone":"15432134567","departmentId":"2","jobId":"3","desc":"对方的需现场","time":1607937023163,"state":1},{"id":12,"name":"福福福","password":"8376ac810bb9f231d28fcf1f","sex":"0","email":"145673@qq.com","phone":"17865243678","departmentId":"1","jobId":"1","desc":"sdfsdfsdf","time":1607937191995,"state":0},{"id":13,"name":"网宿科技华人","password":"8376ac810bb9f231d28fcf1f","sex":"0","email":"213213@qq.com","phone":"17862954138","departmentId":"1","jobId":"1","desc":"asfdsfsv","time":1607937278864,"state":0}]
