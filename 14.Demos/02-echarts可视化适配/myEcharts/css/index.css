@@ -45,6 +45,7 @@ header .showTime {
 .mainbox .column:nth-child(2) {
   flex: 5;
   margin: 0 0.125rem 0.25rem;
+  overflow: hidden;
 }
 .mainbox .panel {
   position: relative;
@@ -220,7 +221,6 @@ header .showTime {
   left: 0;
   width: 100%;
   height: 10.125rem;
-  background-color: #ffeb7b;
 }
 @keyframes rotate1 {
   form {

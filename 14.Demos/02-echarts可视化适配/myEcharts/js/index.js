@@ -36,6 +36,7 @@
         axisTick: {
           alignWithLabel: true
         },
+        // 修改刻度标签的样式
         // x轴的文字颜色和大小
         axisLabel: {
           color: "rgba(255,255,255,.6)",
@@ -86,6 +87,7 @@
     myChart.resize();
   });
 })();
+
 // map地图航线模块
 (function() {
   // 1. 实例化
@@ -377,6 +379,7 @@
           color: "#fff"
         }
       },
+      zoom: 1.2,   // 把地图放大1.2倍
       roam: true,
       itemStyle: {
         normal: {
