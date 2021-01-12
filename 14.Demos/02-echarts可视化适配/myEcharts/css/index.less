@@ -182,6 +182,72 @@ header {
   }
 }
 
+// 地图模块
+.map {
+  position: relative;
+  height: 10.125rem;
+  .map1 {
+    width: 6.475rem;
+    height: 6.475rem;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: url('../images/map.png');
+    background-size: 100% 100%;   // 保证背景图也一起缩放
+    opacity: 0.3;
+  }
+  .map2 {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 8.0375rem;
+    height: 8.0375rem;
+    background: url('../images/lbx.png');
+    background-size: 100% 100%;
+    animation: rotate1 10s linear infinite;
+    opacity: 0.6;
+  }
+  .map3 {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 7.075rem;
+    height: 7.075rem;
+    background: url('../images/jt.png');
+    background-size: 100% 100%;
+    animation: rotate2 10s linear infinite;
+    opacity: 0.6;
+  }
+  .chart {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 10.125rem;
+    background-color: #ffeb7b;
+  }
+
+  @keyframes rotate1 {
+    form {
+      transform: translate(-50%, -50%) rotate(0deg);
+    }
+    to {
+      transform: translate(-50%, -50%) rotate(360deg);
+    }
+  }
+  @keyframes rotate2 {
+    form {
+      transform: translate(-50%, -50%) rotate(0deg);
+    }
+    to {
+      transform: translate(-50%, -50%) rotate(-360deg);
+    }
+  }
+}
+
 ul li {
   list-style-type: none;
 }
