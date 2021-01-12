@@ -401,3 +401,88 @@
     myChart.resize();
   });
 })();
+
+// 折线图-人员变化模块
+// 柱形图模块 使用立即执行函数目的为了方式变量污染
+(function() {
+  // 1. 实例化对象
+  var myChart = echarts.init(document.querySelector(".line .chart"));
+  // 2. 指定配置选项 和数据
+  option = {
+    tooltip: {
+        trigger: 'axis'
+    },
+    legend: {
+        textStyle: {
+          color: '#4c9bfd'
+        },
+        right: '10%'
+    },
+    grid: {
+        top: '20%',
+        left: '3%',
+        right: '4%',
+        bottom: '3%',
+        show: true,  // 显示边框
+        borderColor: '#012f4a',  // 边框颜色
+        containLabel: true   // 包含刻度文字在内
+    },
+    xAxis: {
+        type: 'category',
+        data: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'],
+        axisTick: {
+          show: false,  // 去除刻度线
+        },
+        axisLabel: {
+          color: '#4c9bfd',  // 文本颜色
+        },
+        axisLine: {
+          show: false,  // 去除轴线
+        },
+        boundaryGap: false,  // 去除轴内间距
+    },
+    yAxis: {
+        type: 'value',
+        axisTick: {
+          show: false,  // 去除刻度线
+        },
+        axisLabel: {
+          color: '#4c9bfd',  // 文本颜色
+        },
+        axisLine: {
+          show: false,  // 去除轴线
+        },
+        splitLine: {
+          lineStyle: {
+            color: '#012f4a',  // 分割线颜色
+          }
+        },
+        boundaryGap: false,  // 去除轴内间距
+    },
+    color: ['#00f2f1','#ed3f35'],  // 修改线条的颜色
+    series: [
+        {
+            name: '新增粉丝',
+            type: 'line',
+            stack: '总量',
+            smooth: true,  // 设置圆滑曲线
+            data: [24, 40, 101, 134, 90, 230, 210, 230, 120, 230, 210, 120]
+        },
+        {
+            name: '新增游客',
+            type: 'line',
+            stack: '总量',
+            smooth: true,
+            data: [40, 64, 191, 324, 290, 330, 310, 213, 180, 200, 180, 79]
+        }
+    ]
+  };
+
+  // 3. 把配置选项给 实例对象
+  myChart.setOption(option);
+  // 让我们的图表适配屏幕宽度
+  window.addEventListener("resize", function() {
+    //   让我们图表调用resize方法
+    myChart.resize();
+  });
+})();
