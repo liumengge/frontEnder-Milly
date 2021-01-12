@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="js/echarts.min.js"></script>
+    <style>
+      .box {
+        width: 300px;
+        height: 300px;
+        background-color: pink;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="box"></div>
+    <script>
+      // 1.初始化实例对象
+      // var myChart = echarts.init(dom元素)
+      var myChart = echarts.init(document.querySelector(".box"));
+      //  2 指定相关配置
+      var option = {
+        title: {
+          text: "ECharts 入门示例"
+        },
+        tooltip: {},
+        legend: {
+          data: ["销量"]
+        },
+        xAxis: {
+          data: ["衬衫", "羊毛衫", "雪纺衫", "裤子", "高跟鞋", "袜子"]
+        },
+        yAxis: {},
+        series: [
+          {
+            name: "销量",
+            type: "bar",
+            data: [5, 20, 36, 10, 10, 20]
+          }
+        ]
+      };
+      // 3. 把配置和数据给 实例对象  牛郎把织女娶回家
+      myChart.setOption(option);
+    </script>
+  </body>
+</html>
