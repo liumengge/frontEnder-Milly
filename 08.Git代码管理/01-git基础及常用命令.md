@@ -17,7 +17,7 @@
 1. [官网安装](https://git-scm.com/)
 2. [镜像地址](https://npm.taobao.org/mirrors/git-for-windows/)
 
-安装过程很简单，直接搜一个帖子照着一路安装即可
+安装过程很简单，直接[搜一个帖子](https://www.cnblogs.com/xiuxingzhe/p/9300905.html)照着一路安装即可
 
 - 这个仓库会存放，git对我们项目代码进行备份的文件
 - 在项目目录右键打开`git bash`
