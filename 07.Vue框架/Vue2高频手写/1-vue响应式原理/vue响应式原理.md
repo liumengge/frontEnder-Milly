@@ -8,10 +8,9 @@
 
 ##  一、使用Rollup搭建开发环境
 
-
 ### 1.什么是Rollup?
 
- *Rollup* 是一个 JavaScript 模块打包器,可以将小块代码编译成大块复杂的代码， rollup.js更专注于Javascript类库打包 (开发应用时使用Webpack，开发库时使用Rollup)
+ *Rollup* 是一个 JavaScript 模块打包器, 可以将小块代码编译成大块复杂的代码， rollup.js更专注于Javascript类库打包 (开发应用时使用Webpack，开发库时使用Rollup)
 
 ### 2.环境搭建
 
@@ -22,15 +21,15 @@
 # rollup-plugin-babel  rollup和babel的桥梁     
 # @babel/core  babel的核心模块
 # @babel/preset-env   ES6转ES5
-# rollup-plugin-serve   启动webpack本地服务
+# rollup-plugin-serve   启动本地服务
 npm install @babel/preset-env @babel/core rollup rollup-plugin-babel rollup-plugin-serve cross-env -D
 ```
 
 **rollup.config.js文件编写**
 
 ```js
-import babel from 'rollup-plugin-babel';
-import serve from 'rollup-plugin-serve';
+import babel from 'rollup-plugin-babel'
+import serve from 'rollup-plugin-serve'
 export default {
     input: './src/index.js',
     output: {
@@ -63,7 +62,6 @@ export default {
     ]
 }
 ```
-
 presets是预设，可以认为是一个插件的集合，比如说要将ES6转成ES5，可能需要把箭头函数转成普通函数，let转成var， 类语法转成函数等等，这就是一个插件的集合，把这些插件都封装到一个所谓的预设中去。
 
 .babelrc文件不需要单独引入，在打包的时候默认就会去找这个文件，自动读取。
@@ -92,7 +90,7 @@ presets是预设，可以认为是一个插件的集合，比如说要将ES6转�
 // Vue2.0中，本质是一个构造函数
 function Vue(options) {
     // console.log(options)
-    this._init(options);  // 当用户new Vue的时候， 就调用init方法进行vue的初始化操作
+    this._init(options)  // 当用户new Vue的时候， 就调用init方法进行vue的初始化操作
 }
 
 // 如果有很多的方法，放在同一个文件中就会很乱，可以拆分逻辑到不同的文件中， 更利于代码的维护  --- 模块化概念
@@ -103,26 +101,25 @@ Vue.prototype._init = function (options) {
 export default Vue
 ```
 
-
 导出`vue`构造函数
 
 ```js
-import {initMixin} from './init';
+import {initMixin} from './init'
 
 function Vue(options) {
-    this._init(options);
+    this._init(options)
 }
-initMixin(Vue); // 给原型上新增_init方法
-export default Vue;
+initMixin(Vue) // 给原型上新增_init方法
+export default Vue
 ```
 
 `init`方法中初始化`vue`状态
-
 ```js
-import {initState} from './state';
+import {initState} from './state'
 export function initMixin(Vue){
     Vue.prototype._init = function (options) {
-        const vm  = this;
+        const vm  = this
+        // 实例上有个$options属性，表示用户传入的所有属性
         vm.$options = options
         // 初始化状态
         initState(vm)
@@ -131,7 +128,6 @@ export function initMixin(Vue){
 ```
 
 根据不同属性进行初始化操作
-
 ```js
 export function initState(vm){
     const opts = vm.$options;
