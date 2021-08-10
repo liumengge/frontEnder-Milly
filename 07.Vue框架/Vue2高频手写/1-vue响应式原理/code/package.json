@@ -8,9 +8,14 @@
     "rollup-plugin-babel": "^4.4.0",
     "rollup-plugin-serve": "^1.1.0"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "@babel/core": "^7.15.0",
+    "@babel/preset-env": "^7.15.0",
+    "cross-env": "^7.0.3"
+  },
   "scripts": {
-    "dev": "rollup -c -w"
+    "build:dev": "rollup -c",
+    "serve": "rollup -c -w"
   },
   "keywords": [],
   "author": "",
