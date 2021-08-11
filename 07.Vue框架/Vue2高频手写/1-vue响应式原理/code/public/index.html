@@ -15,7 +15,11 @@
         const vm = new Vue({
             data () {
                 return {
-                    name: 'Milly'
+                    name: 'Milly',
+                    arr: [    // vue中数组中的对象如果变化了，也需要更新视图，应该也需要被拦截
+                        {num: 1},
+                        {num: 2}
+                    ]
                 }
             }
         })
