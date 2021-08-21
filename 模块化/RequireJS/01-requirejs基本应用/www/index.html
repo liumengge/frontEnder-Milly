@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>requirejs</title>
+</head>
+<body>
+  <script data-main="js/app.js" src="https://cdn.bootcdn.net/ajax/libs/require.js/2.2.0/require.min.js"></script>
+  <script>
+    require(['./js/app/sub.js', './js/app/b.js'], function (sub, b) {
+      // sub()
+      console.log(b)
+    })
+  </script>
+</body>
+</html>
