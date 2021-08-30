@@ -1,0 +1,6 @@
+[2021-08-26T20:05:47.315] [TRACE] cheese - Entering cheese testing
+[2021-08-26T20:05:47.341] [DEBUG] cheese - Got cheese
+[2021-08-26T20:05:47.346] [INFO] cheese - Cheese is Great
+[2021-08-26T20:05:47.346] [WARN] cheese - Cheese is warning
+[2021-08-26T20:05:47.346] [ERROR] cheese - Cheese is too ripe!
+[2021-08-26T20:05:47.346] [FATAL] cheese - Cheese was breeding ground for listeria.

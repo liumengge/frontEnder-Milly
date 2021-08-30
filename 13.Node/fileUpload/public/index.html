@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>文件上传</title>
+  <script type="text/javascript" src="https://unpkg.com/axios@0.21.1/dist/axios.min.js"></script>
+</head>
+<body>
+  <input type="file" id="btnFile" />
+  <input type="button" value="上传" @click="upload(0 )" />
+  <script>
+    const btnFile = document.querySelector('#btnFile')
+
+    let chunkSize = 1024*1024  // 每个切片是1M
+    function upload(index) {  // index表示第几个切片
+      let file = btnFile.files[0]
+      let [fname, fext] = file.name.split('.')
+
+      let start = index*chunkSize
+      if (start > file.size ) return
+      let blob = file.slice(start, start+chunkSize)
+      let blobName = `${fname}.${index}.${fext }`
+      let blobFile = new File([blob], blobName)
+
+      let formData = new FormData()
+      formData.append('file', blobFile)
+
+      // 请求
+      axios.post('/upload', formData).then(res => {
+        console.log(res)
+        upload(++index)
+      })
+    }
+  </script>
+</body>
+</html>
