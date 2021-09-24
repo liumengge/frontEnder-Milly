@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+</head>
+<body>
+    <input type="file" class="notFormFile" />
+    <button type="button" class="btnNotForm">上传</button>
+  </form>
+
+  <script>
+    $(".btnNotForm").click(function () {
+      var formData = new FormData();//初始化一个FormData对象
+      formData.append("photo", $(".notFormFile")[0].files[0])  //将文件塞入FormData
+      $.ajax({
+          url: "/upload",
+          type: "POST",
+          data: formData,
+          processData: false,  // 告诉jQuery不要去处理发送的数据
+          contentType: false,   // 告诉jQuery不要去设置Content-Type请求头
+          success: function (responseText) {
+            alert(responseText)
+          }
+      })
+    })
+  </script>
+</body>
+</html>
