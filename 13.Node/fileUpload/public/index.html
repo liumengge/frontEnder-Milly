@@ -4,32 +4,44 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>文件上传</title>
-  <script type="text/javascript" src="https://unpkg.com/axios@0.21.1/dist/axios.min.js"></script>
+  <script type="text/javascript" src="./axios.min.js"></script>
 </head>
 <body>
   <input type="file" id="btnFile" />
-  <input type="button" value="上传" @click="upload(0 )" />
+  <button type="button" onClick="upload(0)">上传</button>
   <script>
-    const btnFile = document.querySelector('#btnFile')
 
-    let chunkSize = 1024*1024  // 每个切片是1M
     function upload(index) {  // index表示第几个切片
-      let file = btnFile.files[0]
-      let [fname, fext] = file.name.split('.')
+      const btnFile = document.querySelector('#btnFile')
+      const chunkSize = 1024 * 1024  // 每个切片是1M
+      const file = btnFile.files[0]
+      const [fname, fext] = file.name.split('.')
 
-      let start = index*chunkSize
-      if (start > file.size ) return
-      let blob = file.slice(start, start+chunkSize)
-      let blobName = `${fname}.${index}.${fext }`
-      let blobFile = new File([blob], blobName)
+      const start = index * chunkSize
+      if (start > file.size ) {
+        merge(file.name)
+        return
+      }
+      const blob = file.slice(start, start + chunkSize)
+      const blobName = `${fname}.${index}.${fext}`
+      const blobFile = new File([blob], blobName)
 
-      let formData = new FormData()
+      const formData = new FormData()
       formData.append('file', blobFile)
+      console.log(blobFile)
+      console.log(formData)
 
       // 请求
       axios.post('/upload', formData).then(res => {
         console.log(res)
         upload(++index)
+      })
+    }
+
+    // 合并
+    function merge(name) {
+      axios.post('/merge', {name}).then(res => {
+        console.log(res)
       })
     }
   </script>

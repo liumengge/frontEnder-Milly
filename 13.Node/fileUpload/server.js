@@ -3,6 +3,7 @@ const multiparty = require('multiparty')
 const bodyParser = require('body-parser')
 const fse = require('fs-extra')
 const path = require('path')
+const fs = require('fs')
 
 const app = express()  // 创建express实例
 
@@ -14,33 +15,47 @@ const UPLOAD_DIR = path.resolve(__dirname, 'public/upload')
 
 // 定义上传路由
 app.post('/upload', function (req, res) {
-  const form = multiparty.Form({uploadDir: 'temp'})   // 处理上传文件，参数是存储目录
+  const form = new multiparty.Form({uploadDir: './temp'})   // 处理上传文件，参数是存储目录
   form.parse(req)
-  form.on('file', (name, chunk) => {
+  form.on('file', async (name, chunk) => {
     // 存放切片的目录
-    let chunkDir = `${UPLOAD_DIR}/${chunk.originalFilename.split('.')[0]}`
-
+    const chunkDir = `${UPLOAD_DIR}/${chunk.originalFilename.split('.')[0]}`
     if (!fse.existsSync(chunkDir)) {
-      fse.mkdir(chunkDir)
+      await fse.mkdir(chunkDir)
     }
 
     // 原文件名.index.ext
-    var dPath = path.join(chunkDir, chunk.originalFilename.split('.')[1])
+    const dPath = path.join(chunkDir, chunk.originalFilename.split('.')[1])
     await fse.move(chunk.path, dPath, {overwrite: true })
-    re.send('文件上传成功')
+    res.send('文件上传成功')
   })
-
 })
 
 // 合并切片
-app.post('/merge', function (req, res) {
-  let name = req.body.name
-  let fname = name.split('.')[0]
+app.post('/merge', async function (req, res) {
+  const name = req.body.name
+  const fname = name.split('.')[0]
 
   // 获取文件名的所有分片
-  let chunkDir = path.join(UPLOAD_DIR, fname)
-  let chunks = await fse.readdir(chunkDir)
+  const chunkDir = path.join(UPLOAD_DIR, fname)
+  const chunks = await fse.readdir(chunkDir)
 
+  // 合并文件
+  chunks.sort((a, b) => a-b).map(chunkPath => {
+    fs.appendFileSync(
+      path.join(UPLOAD_DIR, name),
+      fs.readFileSync(`${chunkDir}/${chunkPath}`)
+    )
+  })
+
+  // 删除切片目录
+  fs.removeSync(chunkDir)
+
+  // 返回合并成功后的url地址
+  res.send({
+    msg: '合并成功',
+    url: `http://localhost:3000/upload/${name}`
+  })
   
 })
 

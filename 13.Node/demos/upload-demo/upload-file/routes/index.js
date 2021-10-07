@@ -1,10 +1,7 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express')
+const router = express.Router()
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
-});
 
 const multer = require('multer')
 const fs = require('fs')
@@ -54,6 +51,16 @@ router.post('/upload-more', multer({
 router.get('/download', (req, res) => {
   const url = res.query.url
   res.send(url)
+})
+
+router.post('/single-upload', multer({
+  dest: 'upload'
+}).single('file'), (req, res) => {
+  console.log(req)
+  res.send({
+    code: 0,
+    // file_name: 
+  })
 })
 
 module.exports = router
