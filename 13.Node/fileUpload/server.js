@@ -15,13 +15,13 @@ const UPLOAD_DIR = path.resolve(__dirname, 'public/upload')
 
 // 定义上传路由
 app.post('/upload', function (req, res) {
-  const form = new multiparty.Form({uploadDir: './temp'})   // 处理上传文件，参数是存储目录
+  const form = new multiparty.Form({uploadDir: 'temp'})   // 处理上传文件，参数是存储目录
   form.parse(req)
   form.on('file', async (name, chunk) => {
     // 存放切片的目录
     const chunkDir = `${UPLOAD_DIR}/${chunk.originalFilename.split('.')[0]}`
     if (!fse.existsSync(chunkDir)) {
-      await fse.mkdir(chunkDir)
+      await fse.mkdirs(chunkDir)
     }
 
     // 原文件名.index.ext
@@ -45,11 +45,11 @@ app.post('/merge', async function (req, res) {
     fs.appendFileSync(
       path.join(UPLOAD_DIR, name),
       fs.readFileSync(`${chunkDir}/${chunkPath}`)
-    )
+    ) 
   })
 
   // 删除切片目录
-  fs.removeSync(chunkDir)
+  fse.removeSync(chunkDir)
 
   // 返回合并成功后的url地址
   res.send({
