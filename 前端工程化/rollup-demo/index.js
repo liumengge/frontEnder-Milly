@@ -1,7 +1,7 @@
 import { funA } from './testa'
-import pkg from './package.json'
+// import pkg from './package.json'
 
-console.log(pkg)
+// console.log(pkg)
 
 funA()
 console.log('hello')
