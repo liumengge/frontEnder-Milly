@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blob</title>
+</head>
+<body>
+  <!-- <script>
+    var htmlParts = ["<a id=\"a\"><b id=\"b\">hey!<\/b><\/a>"]
+    var myBlob = new Blob(htmlParts, { "type" : "text\/xml" })
+    console.log(myBlob)
+  </script> -->
+  <script>
+    // 创建一个链接，下载hello-world.txt
+    var blob = new Blob(["Hello World"])
+    var a = document.createElement("a")
+    var body = document.querySelector('body')
+    a.href = window.URL.createObjectURL(blob)
+    a.download = "hello-world.txt"
+    a.textContent = "Download Hello World!"
+    body.appendChild(a)
+  </script>
+  <script>
+    // 使用XMLHttpRequest对象，将大文件分割上传的
+    // function upload(blobOrFile) {
+    //   var xhr = new XMLHttpRequest()
+    //   xhr.open('POST', '/server', true)
+    //   xhr.onload = function(e) {}
+    //   xhr.send(blobOrFile)
+    // }
+    // document.querySelector('input[type="file"]').addEventListener('change', function(e) {
+    //   var blob = this.files[0]
+    //   const BYTES_PER_CHUNK = 1024 * 1024   // 1MB chunk sizes.
+    //   const SIZE = blob.size
+
+    //   var start = 0
+    //   var end = BYTES_PER_CHUNK
+
+    //   while(start < SIZE) {
+    //     upload(blob.slice(start, end))
+    //     start = end
+    //     end = start + BYTES_PER_CHUNK
+    //   }
+    // }, false)
+  </script>
+  <form action="#">
+    <input type="file" id="input" onchange="console.log(this.files.length)" multiple />
+  </form>
+  <script>
+    // 用户选取文件后就可以读取该文件
+    var selected_file = document.getElementById('input').files[0]
+    // 采用拖放方式，也可以得到FileList对象
+  </script>
+</body>
+</html>

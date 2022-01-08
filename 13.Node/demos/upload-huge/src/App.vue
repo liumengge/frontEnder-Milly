@@ -1,31 +1,50 @@
 <template>
-  <div id="app">
-    <div>
-      <input type="file" :disabled="status !== Status.wait" @change="handleFileChange" />
-      <el-button @click="handleUpload" :disabled="uploadDisabled">上传</el-button>
-      <el-button @click="handleResume" v-if="status === Status.pause">恢复</el-button>
-      <el-button v-else :disabled="status !== Status.uploading || !container.hash" @click="handlePause">暂停</el-button>
+<el-container>
+  <el-header>大文件上传</el-header>
+  <el-main>
+    <div id="app">
+      <div style="text-align: center;">
+        <input type="file" :disabled="status !== Status.wait" @change="handleFileChange" />
+        <el-button type="primary" icon="el-icon-upload" style="font-size: 20px;" @click="handleUpload" :disabled="uploadDisabled">上传</el-button>
+        <el-button @click="handleResume" v-if="status === Status.pause">恢复</el-button>
+        <el-button v-else style="font-size: 20px;" :disabled="status !== Status.uploading || !container.hash" @click="handlePause">暂停</el-button>
+      </div>
+      <el-row style="margin-top: 20px;">
+        <el-col :span="4" :offset="4">
+          <el-card style="margin: 0 auto">
+            <el-progress type="circle" :percentage="hashPercentage" />
+            <div style="padding: 14px;">
+              <span>计算hash</span>
+            </div>
+          </el-card>
+        </el-col>
+        <el-col :span="4" :offset="6">
+          <el-card>
+            <el-progress type="circle" :percentage="fakeUploadPercentage" />
+            <div style="padding: 14px;">
+              <span>总进度</span>
+            </div>
+          </el-card>
+        </el-col>
+      </el-row>
+
+      <el-table :data="data" style="margin-top: 20px;">
+        <el-table-column type="index" />
+        <el-table-column prop="hash" label="切片hash" />
+        <el-table-column label="大小(KB)" width="120">
+          <template v-slot="{ row }">
+            {{ row.size | transformByte }}
+          </template>
+        </el-table-column>
+        <el-table-column label="进度">
+          <template v-slot="{ row }">
+            <el-progress :percentage="row.percentage" color="#909399" />
+          </template>
+        </el-table-column>
+      </el-table>
     </div>
-    <div>
-      <div>计算文件 hash</div>
-      <el-progress :percentage="hashPercentage" />
-      <div>总进度</div>
-      <el-progress :percentage="fakeUploadPercentage" />
-    </div>
-    <el-table :data="data">
-      <el-table-column prop="hash" label="切片hash" align="center" />
-      <el-table-column label="大小(KB)" align="center" width="120">
-        <template v-slot="{ row }">
-          {{ row.size | transformByte }}
-        </template>
-      </el-table-column>
-      <el-table-column label="进度" align="center">
-        <template v-slot="{ row }">
-          <el-progress :percentage="row.percentage" color="#909399" />
-        </template>
-      </el-table-column>
-    </el-table>
-  </div>
+  </el-main>
+</el-container>
 </template>
 
 <script>
@@ -80,7 +99,7 @@ export default {
     })
 
     function resetData() {
-      requestList.value.forEach(xhr => xhr?.abort())
+      requestList?.value.forEach(xhr => xhr?.abort())
       requestList.value = []
       if (container.value.worker) {
         container.value.worker.onmessage = null
@@ -107,8 +126,8 @@ export default {
         xhr.onload = e => {
           // 将请求成功的 xhr 从列表中删除
           if (requestList) {
-            const xhrIndex = requestList.findIndex(item => item === xhr)
-            requestList.splice(xhrIndex, 1)
+            const xhrIndex = requestList?.findIndex(item => item === xhr)
+            requestList?.splice(xhrIndex, 1)
           }
           resolve({ data: e.target.response })
         }
@@ -144,7 +163,7 @@ export default {
     // 上传切片，同时过滤已上传的切片
     async function uploadChunks(uploadedList = []) {
       const requestList = data.value
-        .filter(({ hash }) => !uploadedList.includes(hash))
+        .filter(({ hash }) => !uploadedList?.includes(hash))
         .map(({ chunk, hash, index }) => {
           const formData = new FormData()
           formData.append("chunk", chunk)
@@ -158,13 +177,13 @@ export default {
             url: "http://localhost:3000",
             data: formData,
             onProgress: createProgressHandler(data.value[index]),
-            requestList: requestList.value
+            requestList: requestList?.value
           })
         )
       await Promise.all(requestList)
       // 之前上传的切片数量 + 本次上传的切片数量 = 所有切片数量时
       // 合并切片
-      if (uploadedList.length + requestList.length === data.value.length) {
+      if (uploadedList?.length + requestList?.length === data.value.length) {
         await mergeRequest()
       }
     }
@@ -185,6 +204,32 @@ export default {
       return JSON.parse(data)
     }
 
+    // 生成文件切片
+    function createFileChunk(file, size = SIZE) {
+      const fileChunkList = []
+      let cur = 0
+      while (cur < file.size) {
+        fileChunkList.push({ file: file.slice(cur, cur + size) })
+        cur += size
+      }
+      return fileChunkList
+    }
+
+    // 生成文件 hash（web-worker）
+    function calculateHash(fileChunkList) {
+      return new Promise(resolve => {
+        container.value.worker = new Worker("/hash.js")
+        container.value.worker.postMessage({ fileChunkList })
+        container.value.worker.onmessage = e => {
+          const { percentage, hash } = e.data
+          hashPercentage.value = percentage
+          if (hash) {
+            resolve(hash)
+          }
+        }
+      })
+    }
+
     return {
       Status,
       container,
@@ -196,6 +241,7 @@ export default {
       uploadDisabled,
       uploadPercentage,
 
+      // 暂停
       handlePause() {
         status.value = Status.pause
         resetData()
@@ -208,37 +254,14 @@ export default {
         )
         await uploadChunks(uploadedList)
       },
-      // 生成文件切片
-      createFileChunk(file, size = SIZE) {
-        const fileChunkList = []
-        let cur = 0
-        while (cur < file.size) {
-          fileChunkList.push({ file: file.slice(cur, cur + size) })
-          cur += size
-        }
-        return fileChunkList
-      },
-      // 生成文件 hash（web-worker）
-      calculateHash(fileChunkList) {
-        return new Promise(resolve => {
-          container.value.worker = new Worker("/hash.js")
-          container.value.worker.postMessage({ fileChunkList })
-          container.value.worker.onmessage = e => {
-            const { percentage, hash } = e.data
-            hashPercentage.value = percentage
-            if (hash) {
-              resolve(hash)
-            }
-          }
-        })
-      },
       handleFileChange(e) {
-      const [file] = e.target.files
-      if (!file) return
-      resetData()
-      // Object.assign(this.$data, this.$options.data())
-      container.value.file = file
+        const [file] = e.target.files
+        if (!file) return
+        resetData()
+        // Object.assign(this.$data, this.$options.data())
+        container.value.file = file
       },
+      // 文件上传
       async handleUpload() {
         if (!container.value.file) return
         status.value = Status.uploading
@@ -261,7 +284,7 @@ export default {
           hash: container.value.hash + "-" + index,
           chunk: file,
           size: file.size,
-          percentage: uploadedList.includes(index) ? 100 : 0
+          percentage: uploadedList?.includes(index) ? 100 : 0
         }))
 
         await uploadChunks(uploadedList)
@@ -270,3 +293,20 @@ export default {
   }
 }
 </script>
+
+<style>
+.el-header, .el-footer {
+  background-color: #B3C0D1;
+  color: #333;
+  text-align: center;
+  line-height: 60px;
+}
+.el-main {
+  background-color: #E9EEF3;
+  text-align: left;
+  line-height: 50px;
+}
+.el-card__body {
+  text-align: center;
+}
+</style>

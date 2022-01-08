@@ -15,7 +15,7 @@ app.get('/', (req, res) => {
 
 //自定义中间件
 function uploadFile(req, res, next) {
-	//dest 值为文件存储的路径;single方法,表示上传单个文件,参数为表单数据对应的key
+	//dest 值为文件存储的路径; single方法,表示上传单个文件,参数为表单数据对应的key
 	let upload = multer({dest: 'attachment/'}).single('photo')
 	upload(req, res, (err)=>{
 	    console.log(req.file)

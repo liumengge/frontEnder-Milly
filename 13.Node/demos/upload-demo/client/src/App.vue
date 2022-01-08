@@ -6,7 +6,7 @@
     <el-upload
       class="upload-demo"
       drag
-      action="/single-file"
+      action="/upload-signal-file"
       :show-file-list="false"
       :on-success="handleSuccess"
       :before-upload="handleBeforeUpload"
