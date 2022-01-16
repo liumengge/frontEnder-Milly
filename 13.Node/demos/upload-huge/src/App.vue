@@ -131,6 +131,7 @@ export default {
           }
           resolve({ data: e.target.response })
         }
+        
         // 暴露当前 xhr 给外部
         requestList?.push(xhr)
       })

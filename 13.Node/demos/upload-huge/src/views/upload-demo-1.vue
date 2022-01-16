@@ -1,16 +1,15 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>文件上传</title>
-  <script   src="./axios.min.js"></script>
-</head>
-<body>
-  <input type="file" id="btnFile" />
-  <button type="button" onClick="upload(0)">上传</button>
-  <script>
+<template>
+  <div class="about">
+   <input type="file" id="btnFile" />
+    <button type="button" onClick="upload(0)">上传</button>
+  </div>
+</template>
 
+<script>
+export default {
+  setup() {
+
+    // 文件分片上传
     function upload(index) {  // index表示第几个切片
       const btnFile = document.querySelector('#btnFile')
       const chunkSize = 1024 * 1024  // 每个切片是1M
@@ -31,8 +30,11 @@
         merge(file.name)
         return
       }
+      // 获取一个文件分片
       const blob = file.slice(start, start + chunkSize)
+      // index 为文件分片编号
       const blobName = `${fname}.${index}.${fext}`
+      // 
       const blobFile = new File([blob], blobName)
 
       const formData = new FormData()
@@ -45,6 +47,10 @@
         upload(++index)
       })
     }
-  </script>
-</body>
-</html>
+
+    return {
+      upload
+    }
+  }
+}
+</script>
