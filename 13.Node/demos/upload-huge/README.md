@@ -14,7 +14,7 @@ npm run dev   // 启动服务端
 ### 技术栈
 
 - 前端：vue 2.6.11 + @vue/composition-api + element-ui
-- 服务端：NodeJS(Express)
+- 服务端：NodeJS
 
 ## 大文件上传demo简介
 
