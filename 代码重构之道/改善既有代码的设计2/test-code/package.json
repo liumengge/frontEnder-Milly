@@ -1,0 +1,16 @@
+{
+  "name": "test-code",
+  "version": "1.0.0",
+  "description": "",
+  "main": "test-code.js",
+  "scripts": {
+    "test": "mocha",
+    "test1": "mocha test-code"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "mocha": "^9.2.0"
+  }
+}
