@@ -1,13 +1,4 @@
-/**
- * 
- * @description 设置响应数据
- * @param object res http res
- * @param boolean ret boolean
- * @param string message string
- * @param object dataInfo object
- * @param int httpStatus
- */
- function setResInfo(res, ret, message, dataInfo, httpStatus=200) {
+function setResInfo(res, ret, message, dataInfo, httpStatus=200) {
   let retInfo = {}
   if(!ret) {
     retInfo = {

@@ -1,11 +1,7 @@
-/**
- * @description 封装 mongodb api
- */
 const uri = "mongodb+srv://test:test@cluster0.ejxpm.mongodb.net/"
 const MongoClient = require('mongodb').MongoClient
 
 let baseMongodb
-
 class BaseMongodb {
   constructor() {
     this.mongoClient = new MongoClient(uri, { useNewUrlParser: true , useUnifiedTopology: true})

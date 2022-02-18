@@ -7,7 +7,6 @@ const baseMongo = require('./baseMongodb')()
 
 // 创建服务
 const server = http.createServer(async (req, res) => {
-  // 获取 get 参数
   const myUrl = new URL(req.url, `http://${req.headers.host}`)
   console.log(myUrl, 'myUrl')
   const pathname = myUrl.pathname
@@ -26,10 +25,6 @@ server.listen(4000, () => {
   console.log('server start http://127.0.0.1:4000')
 })
 
-/**
- * @description 在 contents 中增加用户信息
- * @param array contents 
- */
 async function filterUserinfo(contents) {
   const userIds = []
   contents.forEach(content => {
@@ -55,13 +50,6 @@ async function filterUserinfo(contents) {
   return addUserinfo(contents, mapUserinfo)
 }
 
-/**
- * 
- * @description 调用外部 api，暂时只处理 get 逻辑
- * @param string api 
- * @param string method 
- * @param object params 
- */
 async function callApi(api, params={}, method='get') {
   const paramsStr = querystring.stringify(params)
   if(api.indexOf('?') === -1) {
@@ -80,12 +68,6 @@ async function callApi(api, params={}, method='get') {
   return retInfo['data']
 }
 
-/**
- * 
- * @desc 在 content 中增加 userinfo
- * @param {*} contents 
- * @param {*} userinfo 
- */
 function addUserinfo(contents, mapUserinfo={}) {
   contents = contents.map(content => {
     content['user_info'] = mapUserinfo[content['user_id']] ? mapUserinfo[content['user_id']] : {}
@@ -94,11 +76,6 @@ function addUserinfo(contents, mapUserinfo={}) {
   return contents
 }
 
-/**
- * 
- * @description db 数据查询
- * @param object queryOption 
- */
 async function queryData(queryOption) {
   const client = await baseMongo.getClient()
   const collection = client.db("nodejs_cloumn").collection("content")
@@ -107,15 +84,6 @@ async function queryData(queryOption) {
   return queryArr
 }
 
-/**
- * 
- * @description 设置响应数据
- * @param object res http res
- * @param boolean ret boolean
- * @param string message string
- * @param object dataInfo object
- * @param int httpStatus
- */
 function setResInfo(res, ret, message, dataInfo, httpStatus=200) {
   let retInfo = {}
   if(!ret) {

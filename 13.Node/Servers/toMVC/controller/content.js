@@ -13,10 +13,6 @@ class Content extends Controller {
     return this.resApi(true, 'success', contentList)
   }
 
-  /**
-   * @description 在 contents 中增加用户信息
-   * @param array contents 
-   */
   async _filterUserinfo(contents) {
     let userIds = []
     contents.forEach(content => {
@@ -43,12 +39,6 @@ class Content extends Controller {
     return this._addUserinfo(contents, mapUserinfo);
   }
 
-  /**
-   * 
-   * @desc 在 content 中增加 userinfo
-   * @param {*} contents 
-   * @param {*} userinfo 
-   */
   _addUserinfo(contents, mapUserinfo={}) {
     contents = contents.map(content => {
       content['user_info'] = mapUserinfo[content['user_id']] ? mapUserinfo[content['user_id']] : {};

@@ -1,5 +1,4 @@
 const baseMongo = require('../core/baseMongodb')()
-
 class Model {
   constructor() {
     this.db = 'nodejs_cloumn'

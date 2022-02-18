@@ -1,5 +1,4 @@
 const Model = require('../core/model')
-
 class ContenModel extends Model {
   constructor() {
     super()

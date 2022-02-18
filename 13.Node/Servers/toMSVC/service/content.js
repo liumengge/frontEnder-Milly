@@ -29,12 +29,6 @@ class ContentService {
     return this._addUserinfo(contents, mapUserinfo)
   }
 
-  /**
-   * 
-   * @desc 在 content 中增加 userinfo
-   * @param {*} contents 
-   * @param {*} userinfo 
-   */
   _addUserinfo(contents, mapUserinfo={}) {
     contents = contents.map(content => {
       content['user_info'] = mapUserinfo[content['user_id']] ? mapUserinfo[content['user_id']] : {}
