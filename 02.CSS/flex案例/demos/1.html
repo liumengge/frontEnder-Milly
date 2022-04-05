@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+    }
+    .parent {
+      display: flex;
+      /* justify-content: center; */
+      /* justify-content: flex-end;   靠右对齐 */
+      /* justify-content: space-between;   左右两端对齐, 且 item 之间的间距相等 */
+      /* justify-content: space-around;   左右两端对齐, 且 item 之间的间距为 item到容器之间的距离的2倍 */
+      /* justify-content: space-evenly;   左右两端对齐, 且 item 之间的间距与 item到容器之间的距离相等 */
+      height: 500px;
+      border: 1px solid red;
+      /* align-items: center;   需要设置height */
+      /* flex-direction: row;   默认横向 */
+      /* flex-direction: row-reverse;   横向反转项目排序 */
+      /* flex-direction: column;   纵向 */
+      /* flex-direction: column-reverse;   纵向反转 */
+      /* flex-wrap: nowrap;   如果items的宽度大于容器的宽度，浮动布局时就会换行，但是设置该属性，会等分容器宽度且不换行， 但实际上没有设置该属性时并没有换行？  */
+      /* flex-wrap: wrap;  根据 item 的宽度排列， 会换行  */
+    }
+    .parent div {
+      width: 100px;
+      height: 100px;
+      background-color: pink;
+      border: 1px solid red;
+    }
+    .div1 {
+      order: 1;   /* 决定item的排列顺序，数值越小，越排在前面 */
+      /* flex属性：
+        取值：默认 0 1 auto
+        flex属性是flex-grow, flex-shrink, flex-basis 三个属性的简写，用于定义item 的放大、缩小、宽度。
+        flex-grow: 默认0， 用于决定item在有剩余空间的情况下是否放大，默认不放大。
+          假设默认三个item中前两个item都是0，最后一个是1，最后的项目会占满剩余的所有空间
+          假设只有第一个item默认为0，后面两个item为1， 则后两个item会平分剩余的空间
+        flex-shrink: 默认1， 用于决定item在空间不足时是否缩小。默认item都是1，即空间不足时一起等比缩小。即使设置了固定宽度，也会缩小
+          如果某个item设置为0， 空间不足时，自身不会缩小
+        flex-basis: 默认 auto，用于设置项目宽度，默认auto时，item会保持默认宽度，或者以width为自身的宽度，但如果设置了flex-basis属性，权重会比width高，则会覆盖width属性
+
+        两个快捷键值： 
+          auto(1 1 auto) 等分放大缩小
+          none(0 0 auto) 不放大，等分缩小
+      
+       */
+    }
+    .div2 {
+      order: 2;
+      align-self: center;
+    }
+    .div3 {
+      order: 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="parent">
+    <div class="div1">a</div>
+    <div class="div2">b</div>
+    <div class="div3">c</div>
+  </div>
+</body>
+</html>
