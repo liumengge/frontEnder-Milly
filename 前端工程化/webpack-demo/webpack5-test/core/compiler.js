@@ -3,7 +3,7 @@
 const { SyncHook } = require('tapable')
 const { toUnixPath } = require('./utils')
 const path = require('path')
-const webpack = require('./webpack')
+const fs = require('fs')
 class Compiler {
   constructor(options) {
     // options 为合并后的 webpack 配置
@@ -26,7 +26,16 @@ class Compiler {
     // 然后在通过this.hook.run.call()执行所有tap注册的事件
     // 通过Compiler类返回的实例对象上compiler.hooks.run.tap可以注册钩子
 
-
+    // 保存所有入口模块对象
+    this.entries = new Set()
+    // 保存所有依赖模块对象
+    this.modules = new Set()
+    // 所有的代码块对象
+    this.chunks = new Set()
+    // 保存本次产出的文件对象
+    this.assets = new Set()
+    // 保存本次编译所有产出的文件名称
+    this.files = new Set()
   }
 
   // 启动编译，同时接收外部传递的callback
@@ -39,6 +48,8 @@ class Compiler {
 
     // 获取入口配置对象
     const entry = this.getEntry()
+    // 编译入口文件
+    this.buildEntryModule(entry)
   }
 
   // 获取入口文件路径
@@ -86,6 +97,68 @@ class Compiler {
 
     return entry
   }
+
+  /**
+   * 编译入口文件, 循环入口对象，得到每一个入口的名称和路径
+   * 
+   */
+  buildEntryModule(entry) {
+    Object.keys(entry).forEach(entryName => {
+      const entryPath = entry(entryName)
+      const entryObj = this.buildModule(entryName, entryPath)
+      this.entries.add(entryObj)
+    })
+  }
+
+  /**
+   * 模块编译方法
+   * 
+   * @param moduleName, modulePath
+   * @returns object 编译后的对象
+   */
+  buildModule(moduleName, modulePath) {
+    // 1. 读取文件原始代码
+    const originSourceCode = ((this.originSourceCode = fs.readFileSync(modulePath)), 'utf-8')
+    // moduleCode 为修改后的代码
+    this.moduleCode = originSourceCode
+    // 2. 调用loader进行处理
+    this.handleLoader(modulePath)
+
+    return {}
+  }
+
+  /**
+   * 匹配loader处理
+   * 
+   * @param modulePath
+   */
+  handleLoader(modulePath) {
+    const matchLoaders = []
+    // 1. 获取 所有传入的loader规则
+    const rules = this.options.module.rules
+    rules.forEach(loader => {
+      const testRule = loader.test
+      if(testRule.test(modulePath)) {
+        if (loader.loader) {
+          // 仅考虑loader { test:/\.js$/g, use:['babel-loader'] }, { test:/\.js$/, loader:'babel-loader' }
+          matchLoaders.push(loader.loader)
+        } else {
+          matchLoaders.push(...loader.use)
+        }
+      }
+
+      // 倒序执行loader传入源码
+      for (let i = matchLoaders.length - 1; i >= 0; i--) {
+        // 目前外部仅支持传入绝对路径的 loader 模式
+        // require 引入对应 loader
+        const loaderFn = require(matchLoaders[i])
+        // 通过loader同步处理每一次编译的moduleCode
+        // 在每一个模块编译中this.moduleCode都会经过对应的loader处理
+        this.moduleCode = loaderFn(this.moduleCode)
+      }
+    })
+  }
+
 }
 
 module.exports = Compiler
