@@ -1,9 +1,14 @@
 // Compiler 类实现核心编译逻辑
 
 const { SyncHook } = require('tapable')
-const { toUnixPath } = require('./utils')
+const { toUnixPath, tryExtensions } = require('./utils')
 const path = require('path')
 const fs = require('fs')
+const parser = require('@babel/parser')
+const traverse = require('@babel/traverse').default
+const generator = require('@babel/generator').default
+const t = require('@babel/types')
+
 class Compiler {
   constructor(options) {
     // options 为合并后的 webpack 配置
@@ -107,6 +112,8 @@ class Compiler {
       const entryPath = entry(entryName)
       const entryObj = this.buildModule(entryName, entryPath)
       this.entries.add(entryObj)
+      // 处理完成的entry对象
+      console.log(this.entries, 'entries')
     })
   }
 
@@ -118,13 +125,15 @@ class Compiler {
    */
   buildModule(moduleName, modulePath) {
     // 1. 读取文件原始代码
-    const originSourceCode = ((this.originSourceCode = fs.readFileSync(modulePath)), 'utf-8')
+    const originSourceCode = ((this.originSourceCode = fs.readFileSync(modulePath), 'utf-8'))
     // moduleCode 为修改后的代码
     this.moduleCode = originSourceCode
     // 2. 调用loader进行处理
     this.handleLoader(modulePath)
+    // 3. 调用webpack进行模块编译  获得最终的module对象
+    const module = this.handleWebpackCompiler(moduleName, modulePath)
 
-    return {}
+    return module
   }
 
   /**
@@ -157,6 +166,63 @@ class Compiler {
         this.moduleCode = loaderFn(this.moduleCode)
       }
     })
+  }
+
+  /**
+   * 调用webpack进行模块编译
+   * 
+   */
+  handleWebpackCompiler(moduleName, modulePath) {
+    // 将当前模块相对于项目启动根目录 计算出相对路径 作为模块ID
+    const moduleId = './' + path.posix.relative(this.rootPath, modulePath)
+    // 创建模块对象
+    const module = {
+      id: moduleId, // 表示当前模块针对于this.rootPath的相对目录
+      dependencies: new Set(), // 该模块的依赖模块的绝对路径地址， Set内保存的是该模块依赖的所有模块的模块Id
+      name: [moduleName] // 该模块所属的入口文件
+    }
+
+    // 调用babel分析代码
+    const ast = parser.parse(this.moduleCode, {
+      sourceType: 'module'
+    })
+
+    // 深度优先 遍历语法树
+    traverse(ast, {
+      // 当遇到require语句时
+      CallExpression: (nodePath) => {
+        const node = nodePath.node
+        if (node.callee.name === 'require') {
+          // 获得源代码中引入模块相对路径
+          const requirePath = node.arguments[0].value
+          // 寻找模块绝对路径 当前模块路径+require()对应相对路径
+          const moduleDirName = path.posix.dirname(modulePath)
+          const absolutePath = tryExtensions(
+            path.posix.join(moduleDirName, requirePath),
+            this.options.resolve.extensions,
+            requirePath,
+            moduleDirName
+          )
+
+          // 生成moduleId - 针对根路径的模块Id 添加进入新的依赖模块路径
+          const moduleId = path.posix.relative(this.rootPath, absolutePath)
+
+          // 通过 babel 修改源代码中的require变成__webpack_require__语句
+          node.callee = t.identifier('__webpack_require__')
+          // 修改源代码中require语句引入的模块 全部修改变为相对于根路径来处理
+          node.arguments = [t.stringLiteral(moduleId)]
+          // 为当前模块添加require语句造成的依赖(内容为相对于根路径的模块ID)
+          module.dependencies.add(moduleId)
+        }
+      }
+    })
+
+    // 遍历结束， 根据AST生成新的代码
+    const { code } = generator(ast)
+    // 为当前模块挂载新的生成的代码，_source属性中存放模块自身经过babel编译后的字符串代码
+    module._source = code
+    // 返回当前模块对象
+    return module
   }
 
 }
