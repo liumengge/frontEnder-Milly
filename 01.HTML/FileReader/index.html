@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <!-- 上传图片预览 -->
+  <form>
+    <fieldset>
+      <legend>上传图片预览</legend>
+      <input type="file" name="file" id="" onchange="showPreview(this)">
+      <img id="portrait" width="100px" height="100px" alt="">
+    </fieldset>
+  </form>
+
+  <!-- 进度条 -->
+  <form>
+    <fieldset>
+      <legend>分段读取文件</legend>
+      <input type="file" name="" id="File">
+      <input type="button" value="中断" id="Abort">
+      <p>
+        <label>读取进度：</label>
+        <progress id="Progress" value="0" max="100"></progress>
+      </p>
+      <p id="Status"></p>
+    </fieldset>
+  </form>
+
+  <script src="./index.js"></script>
+</body>
+</html>
