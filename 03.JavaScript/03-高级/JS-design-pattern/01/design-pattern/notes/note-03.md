@@ -64,6 +64,67 @@ SO如何提现的？
 S - 一个then完成一件事
 O - 如果新增需求，扩展then，对扩展开放对修改封闭
 
+实际开发场景中遵循SO原则的例子：表单数据做校验
+
+```javascript
+let checkType = function(str, type) {
+  switch (type) {
+    case 'email':
+      return /^[\w-]+(\.[\w-]+)*@[\w-]+(\.[\w-]+)+$/.test(str)
+    case 'mobile':
+      return /^1[3|4|5|7|8][0-9]{9}$/.test(str)
+    case 'tel':
+      return /^(0\d{2,3}-\d{7,8})(-\d{1,4})?$/.test(str)
+    default:
+      return true
+  }
+}
+
+// 使用
+console.log(checkType('165226226326','mobile'))  // false
+```
+以上这种形式并没有遵循SO原则(对扩展开放，对修改关闭)，如果想增加一个时间格式校验规则，就需要在checkType方法中新增加一个case，然后添加校验规则，即需要修改checkType，每增加一个新的规则就要修改一次，随着规则变多，checkType也会变得比较臃肿。
+
+重构如下：
+```javascript
+const checkType = (function() {
+
+  const rules = {
+    email(str) {
+      return /^[\w-]+(\.[\w-]+)*@[\w-]+(\.[\w-]+)+$/.test(str)
+    },
+    mobile(str) {
+      return /^1[3|4|5|7|8][0-9]{9}$/.test(str)
+    }
+  }
+
+  //暴露接口
+  return {
+    //校验
+    check(str, type) {
+      return rules[type] ? rules[type](str) : false
+    },
+    //添加规则
+    addRule(type, fn) {
+      rules[type] = fn
+    }
+  }
+})()
+
+//使用mobile校验规则
+console.log(checkType.check('188170239', 'mobile')) // false
+
+//添加金额校验规则
+checkType.addRule('money', function (str) {
+  return /^[0-9]+(.[0-9]{2})?$/.test(str)
+})
+
+//使用金额校验规则
+console.log(checkType.check('18.36', 'money')) // true
+```
+
+案例来源：[守候-改善代码的各方面问题](https://juejin.cn/post/6844903597092651015#comment)
+
 ### 从设计到模式
 
 设计：设计原则
