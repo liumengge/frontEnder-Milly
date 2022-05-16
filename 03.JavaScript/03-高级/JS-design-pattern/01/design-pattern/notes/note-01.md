@@ -241,12 +241,255 @@ TS在线工具：https://www.typescriptlang.org/play
 > 子类继承父类
 
 1. 类式继承
+```javascript
+// 声明父类
+function SuperClass() {
+  this.superValue = true
+}
+
+SuperClass.prototype.getSuperValue = function () {
+  return this.superValue
+}
+
+// 声明子类
+function SubClass() {
+  this.subValue = false
+}
+
+// 继承父类
+SubClass.prototype = new SuperClass()
+SubClass.prototype.getSubValue = function () {
+  return this.subValue
+}
+```
+
+存在问题：由于子类通过其原型prototype对父类实例化，继承了父类，所以，父类中的公有属性如果是引用类型会在子类中被所有实例共用，一个子类实例更改子类原型从父类构造函数中继承来的共有属性就会直接影响到其他子类，比如：
+
+```javascript
+function SuperClass() {
+  this.books = ['js', 'html', 'css']
+}
+
+function SubClass() {}
+SubClass.prototype = new SuperClass()
+var instance1 = new SubClass()
+var instance2 = new SubClass()
+console.log(instance2.books)  // ['js', 'html', 'css']
+instance1.books.push('python')
+console.log(instance2.books) // ['js', 'html', 'css', 'python']
+```
+
 2. 构造函数继承
+
+```javascript
+// 父类
+function SuperClass(id) {
+  // 引用类型 共有属性
+  this.books = ['js', 'html', 'css']
+  this.bookId = id
+}
+
+SuperClass.prototype.showBooks = function () {
+  console.log(this.books)
+}
+
+// 子类
+function SubClass(id) {
+  // 继承父类构造函数中共有属性
+  SuperClass.call(this, id)
+}
+
+var instance1 = new SubClass(10)
+var instance2 = new SubClass(11)
+
+instance1.books.push('node')
+console.log(instance1.books)
+console.log(instance1.id)
+console.log(instance2.books)
+console.log(instance2.id)
+
+instance1.showBooks()  // TypeError
+```
+
+SuperClass..call(this, id)修改this指向，相当于在子类中调用了父类，this指向子类，子类就继承了父类构造函数中的属性和方法，但是不会继承原型prototype上的属性和方法，要想继承就要放在构造函数中，这样每个实例都会有单独的属性和方法，不能复用。
+
 3. 组合继承
+
+构造函数继承 + 类式继承
+
+```javascript
+// 声明父类
+function SuperClass(name) {
+  // 值类型共有属性
+  this.name = name
+  // 引用类型共有属性
+  this.books = ['js', 'html', 'css']
+}
+// 父类原型公有方法
+SyperClass.prototype.getName = function () {
+  console.log(this.name)
+}
+
+// 声明子类
+function SubClass(name, id) {
+  // 构造函数式继承父类的 name 属性
+  SuperClass.call(this, name)
+  // 子类共有属性
+  this.bookId = id
+}
+
+// 类式继承
+SubClass.prototype = new SuperClass()
+
+SubClass.prototype.getBookId = function () {
+  console.log(this.bookId)
+}
+
+// 测试
+var instance1 = new SubClass('js', 10)
+var instance2 = new SubClass('css', 5)
+
+instance1.books.push('html')
+console.log(instance1.books) // [ 'js', 'html', 'css', 'html' ]
+console.log(instance2.books) // [ 'js', 'html', 'css' ]
+
+```
+
+可以发现，instance1实例对象修改其引用类型属性books时并不会影响其他子类创建的实例对象，但这种方式也存在一点问题，即：在使用构造函数式继承父类属性的时候调用了一次父类构造函数，类式继承中将父类实例化对象赋值给子类的prototype时也调用了一次父类的构造函数，所以组合式继承中调用了两次父类的构造函数。
+
 4. 原型式继承
+
+```javascript
+function inheritObj(o) {
+  // 声明一个过渡函数对象
+  function F() {}
+  // 过渡对象的原型继承父对象
+  F.prototype = o
+  // 返回过渡对象的一个实例。该实例的原型继承了父对象
+  return new F()
+}
+```
+
+类式继承的封装，过渡对象就相当于类式继承中的子类，目的是为了创建要返回的新的实例化对象。同样的，类式继承中存在的问题，原型式继承也存在，即：若修改某个实例对象的引用类型属性，其他实例对象也会受到影响：
+
+```javascript
+var book = {
+  name: 'I like it',
+  books: ['js book', 'css book']
+}
+
+var book1 = new inheritObj(book)
+var book2 = new inheritObj(book)
+
+book1.name = 'I dislike it'
+book1.books.push('html book')
+
+console.log(book1.name) // I dislike it
+console.log(book1.books) // [ 'js book', 'css book', 'html book' ]
+console.log(book2.name) // I like it
+console.log(book2.books) // [ 'js book', 'css book', 'html book' ]
+```
+
 5. 寄生式继承
+
+```javascript
+// 原型式继承
+function inheritObj(o) {
+  // 声明一个过渡函数对象
+  function F() {}
+  // 过渡对象的原型继承父对象
+  F.prototype = o
+  // 返回过渡对象的一个实例。该实例的原型继承了父对象
+  return new F()
+}
+
+// 声明基对象
+var book = {
+  name: 'I like it',
+  books: ['js book', 'css book']
+}
+
+function createBook(obj) {
+  // 通过原型继承方式创建新对象
+  var o = new inheritObj(obj)
+
+  // 拓展新对象
+  o.getName = function () {
+    console.log(this.name)
+  }
+
+  // 返回拓展后的新对象
+  return o
+}
+```
+
+寄生式继承是对原型式继承的二次封装，且在封装过程中对继承的对象进行拓展。
+
 6. 寄生组合式继承
 
+```javascript
+// 原型式继承
+function inheritObj(o) {
+  // 声明一个过渡函数对象
+  function F() {}
+  // 过渡对象的原型继承父对象
+  F.prototype = o
+  // 返回过渡对象的一个实例。该实例的原型继承了父对象
+  return new F()
+}
+
+/**
+ * 寄生式继承 继承原型
+ * @param subClass 子类
+ * @param superClass 父类
+ */
+function inheritPrototype(subClass, superClass) {
+  // 复制父类的原型副本
+  var p = inheritObj(superClass.prototype)
+  // 修正因为重写子类原型导致子类的 constructor 属性被修改
+  p.constructor = subClass
+  // 设置子类的原型
+  subClass.prototype = p
+}
+
+// 父类
+function SuperClass(name) {
+  this.name = name
+  this.colors = ['red', 'blue']
+}
+SuperClass.prototype.getName = function () {
+  console.log(this.name)
+}
+
+// 子类
+function SubClass(name, time) {
+  // 构造函数式继承
+  SuperClass.call(this, name)
+  // 子类的属性
+  this.time = time
+}
+
+// 寄生式继承父类原型
+inheritPrototype(SubClass, SuperClass)
+
+// 子类新增原型方法
+SubClass.prototype.getTime = function () {
+  console.log(this.time)
+}
+
+var instance1 = new SubClass('js', 2014)
+var instance2 = new SubClass('css', 2013)
+instance1.colors.push('green')
+
+console.log(instance1.colors) // [ 'red', 'blue', 'green' ]
+console.log(instance2.colors) // [ 'red', 'blue' ]
+instance2.getName() // css
+instance2.getTime() // 2013
+```
+注意：子类要想添加原型方法必须通过`prototype.方法名`的形式一个一个添加，若直接赋予新对象就会覆盖掉从父类原型继承的对象。
+
+寄生组合式继承关系如下：
+![](./images/jicheng.png)
 
 ES6语法下的继承
 
