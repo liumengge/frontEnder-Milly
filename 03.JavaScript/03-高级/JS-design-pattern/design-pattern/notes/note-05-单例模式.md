@@ -31,7 +31,7 @@ public class SingleObject {
 ```
 从上述代码可以看出，不能从SingleObject类外部通过new的方式创建对象，只能通过调用`SingleObject.getInstance()`的方式来创建实例对象，且这个实例对象只会被new一次。所以，单例模式中一个类就只有一个实例(instance)，并提供一个访问这个instance的全局访问点(getInstance)
 
-## 示例
+## ES6 应用场景示例
 
 - 登录框，项目中应该只存在一个登录框
 

@@ -1,7 +1,7 @@
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const {BundleAnalyzerPlugin} = require("webpack-bundle-analyzer")
-const UnusedWebpackPlugin = require("unused-webpack-plugin")
+// const UnusedWebpackPlugin = require("unused-webpack-plugin")
 
 module.exports = {
   mode: 'development',
@@ -24,16 +24,17 @@ module.exports = {
       directory: path.join(__dirname, './release')
     },
     open: true,
-    port: 8000
+    port: 8000,
+    hot: true
   },
   plugins: [
     new HtmlWebpackPlugin({
       template: './index.html'
     }),
     new BundleAnalyzerPlugin(),
-    new UnusedWebpackPlugin({
-      directories: [path.join(__dirname, "src")],
-      root: path.join(__dirname, "../"),
-    }),
+    // new UnusedWebpackPlugin({
+    //   directories: [path.join(__dirname, "src")],
+    //   root: path.join(__dirname, "../"),
+    // }),
   ]
 }
