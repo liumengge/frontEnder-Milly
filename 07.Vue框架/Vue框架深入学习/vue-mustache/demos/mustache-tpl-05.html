@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>mustache 条件渲染</title>
+</head>
+<body>
+  <div class="container"></div>
+</body>
+<script src="https://cdn.bootcdn.net/ajax/libs/mustache.js/4.0.1/mustache.js"></script>
+<script>
+  const container = document.querySelector('.container')
+  const data = {
+    isShow: true
+  }
+  var templateStr = `
+    {{#isShow}}
+      <h3>青峰</h3>
+    {{/isShow}}
+  ` 
+  let dom = Mustache.render(templateStr,data)
+  // 写入innerHtml中
+  container.innerHTML = dom
+  // 条件渲染类似于 v-if，但是不能写表达式
+</script>
+</html>

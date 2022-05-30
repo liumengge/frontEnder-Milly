@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>mustache 循环简单数组</title>
+</head>
+<body>
+  <div class="container"></div>
+</body>
+<script src="https://cdn.bootcdn.net/ajax/libs/mustache.js/4.0.1/mustache.js"></script>
+<script>
+  const container = document.querySelector('.container')
+  const data = {
+    array: [ 'Alex', 'Jack', '青峰']
+  }
+  var templateStr = `
+    <ul>
+      {{#array}}
+      <li>
+        {{.}}
+      </li>
+      {{/array}}
+    </ul>
+  `
+  let dom = Mustache.render(templateStr, data)
+  // 写入innerHtml中
+  container.innerHTML = dom
+</script>
+</html>

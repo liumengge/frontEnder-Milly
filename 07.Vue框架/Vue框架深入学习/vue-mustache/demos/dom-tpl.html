@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>纯DOM 模板引擎</title>
+</head>
+<body>
+  <!-- DOM结构视图 -->
+  <ul>
+    <li>
+      <div class="hd">Alex的基本信息</div>
+      <div class="bd">
+        <p>姓名：Alex</p>
+        <p>性别：男</p>
+        <p>年龄：18</p>
+      </div>
+    </li>
+    <li>
+      <div class="hd">Jack的基本信息</div>
+      <div class="bd">
+        <p>姓名：Jack</p>
+        <p>性别：男</p>
+        <p>年龄：20</p>
+      </div>
+    </li>
+    <li>
+      <div class="hd">Alex的基本信息</div>
+      <div class="bd">
+        <p>姓名：青峰</p>
+        <p>性别：男</p>
+        <p>年龄：19</p>
+      </div>
+    </li>
+  </ul>
+  <!-- vue中的写法 -->
+  <!-- <li -v-for = "(item, index) in data.array" :key="index"> -->
+</body>
+<script>
+  // 方式1：DOM 方式实现：特别复杂，手动添加上树
+  // 数据
+  const data = {
+    array: [
+      {name: 'Alex', sex: '男', age: 18},
+      {name: 'Jack', sex: '男', age: 20},
+      {name: '青峰', sex: '男', age: 19},
+    ]
+  }
+  let ul = document.querySelector('.list')
+  for(let i = 0; i < data.array.length; i++) {
+    let oli = document.createElement('li')
+    oli.innerText = data.array[i].name + '基本信息'
+    let divhd = document.createElement('div')
+    divhd.className = "hd"
+    let divbd = document.createElement('div')
+    divbd.className = "bd"
+    let p1 = document.createElement('p')
+    let p2 = document.createElement('p')
+    let p3 = document.createElement('p')
+    p1.innerText = '姓名：' + data.array[i].name 
+    p2.innerText = '性别：' + data.array[i].sex 
+    p3.innerText = '年龄：' + data.array[i].age 
+    divbd.appendChild(p1)
+    divbd.appendChild(p2)
+    divbd.appendChild(p3)
+    oli.appendChild(divhd)
+    oli.appendChild(divbd)
+    ul.appendChild(oli)
+  }
+</script>
+</html>

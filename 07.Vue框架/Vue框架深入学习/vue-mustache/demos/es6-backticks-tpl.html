@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ES6 反引号 模板字符串</title>
+</head>
+<body>
+  <!-- DOM结构 -->
+  <ul class="list"></ul>
+</body>
+<script>
+  const list = document.querySelector('.list')
+  const data = {
+    array: [
+      {name: 'Alex', sex: '男', age: 18},
+      {name: 'Jack', sex: '男', age: 20},
+      {name: '青峰', sex: '男', age: 19}
+    ]
+  }
+  for(let i = 0; i < data.array.length; i++) {
+    list.innerHTML += `
+      <li>
+        <div class="hd">${data.array[i].name}的基本信息</div>
+        <div class="bd">
+          <p>姓名：${data.array[i].name}</p>
+          <p>性别：${data.array[i].sex}</p>
+          <p>年龄：${data.array[i].age}</p>
+        </div>
+      </li>
+    `
+  }
+</script>
+</html>

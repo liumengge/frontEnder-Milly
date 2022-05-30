@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>字符串拼接</title>
+    <style>
+        * {
+          margin: 0px;
+          padding: 0px;
+        }
+        body {
+          color:#333;
+        }
+        .games-list {
+          width: 300px;
+          margin: 0 auto;
+        }
+        h1 {
+          font-size: 20px; 
+          margin: 10px;
+        }
+        ul {
+          border-top: 1px solid #ddd;
+          list-style-type: none;
+        }
+        li {
+          padding: 5px 10px;
+          border-bottom: 1px solid #ddd;
+          border-left: 1px solid #ddd;
+          border-right: 1px solid #ddd;
+        }
+    </style>
+</head>
+<body>
+   <!--<div class="games-list">
+       <h1>C 系列游戏</h1>
+       <ul>
+           <li>彩虹岛</li>
+           <li>CF点券</li>
+           <li>传奇国度</li>
+           <li>传世群英传</li>
+           <li>我们 - 陈伟霆</li>
+           <li>画风 - 后弦</li>
+           <li>we Are One - 郁可唯</li>
+       </ul>
+   </div>-->
+</body>
+<script>
+  var games = [
+    { letter: "caihongdao", name: "彩虹岛" },
+    { letter: "CFdianquan", name: "CF点券" },
+    { letter: "chuanqiguodu", name: "传奇国度" },
+    { letter: "chuanshiqunyingchuan", name: "传世群英传" },
+    { letter: "chunqiuQchuan",  name: "春秋Q传" }
+  ]
+
+  var html = ''
+  html += '<div class="games-list">'
+  html += '  <h1>C 系列游戏</h1>'
+  html += '  <ul>'
+
+  for (var i = 0; i < games.length; i++) {
+      html += '<li>' + games[i].letter +' - ' + games[i].name + '</li>'
+  }
+  
+  html += '  </ul>'
+  html += '</div>'
+
+  document.body.innerHTML = html
+</script>
+</html>

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>构造DOM对象</title>
+    <style>
+        * {
+          margin: 0px;
+          padding: 0px;
+        }
+        body {
+          color:#333;
+        }
+        .games-list {
+          width: 300px;
+          margin: 0 auto;
+        }
+        h1 {
+          font-size: 20px; 
+          margin: 10px;
+        }
+        ul {
+          border-top: 1px solid #ddd;
+          list-style-type: none;
+        }
+        li {
+          padding: 5px 10px;
+          border-bottom: 1px solid #ddd;
+          border-left: 1px solid #ddd;
+          border-right: 1px solid #ddd;
+        }
+    </style>
+</head>
+<body>
+   <!--<div class="games-list">
+       <h1>C 系列游戏</h1>
+       <ul>
+           <li>彩虹岛</li>
+           <li>CF点券</li>
+           <li>传奇国度</li>
+           <li>传世群英传</li>
+           <li>我们 - 陈伟霆</li>
+           <li>画风 - 后弦</li>
+           <li>we Are One - 郁可唯</li>
+       </ul>
+   </div>-->
+</body>
+<script>
+  var games = [
+    { letter: "caihongdao", name: "彩虹岛" },
+    { letter: "CFdianquan", name: "CF点券" },
+    { letter: "chuanqiguodu", name: "传奇国度" },
+    { letter: "chuanshiqunyingchuan", name: "传世群英传" },
+    { letter: "chunqiuQchuan",  name: "春秋Q传" }
+  ]
+  
+  var elDiv = document.createElement('div')
+  elDiv.className = 'games-list'
+  var elH1 =document.createElement('h1')
+  elH1.appendChild(document.createTextNode('C 系列游戏'))
+  var elList = document.createElement('ul')
+
+  for (var i = 0; i < games.length; i++) {
+    var li = document.createElement('li')
+    li.textContent = games[i].letter + ' - ' + games[i].name
+    elList.appendChild(li)
+  }
+
+  elDiv.appendChild(elH1)
+  elDiv.appendChild(elList)
+  document.body.appendChild(elDiv)
+  
+  // textContext 与 innerText 的区别
+  // 1.textContent 会获取所有元素的内容，包括 <script> 和 <style> 元素，然而 innerText 不会。
+  // 2.innerText意识到样式，并且不会返回隐藏元素的文本，而textContent会。
+  // 3.由于 innerText 受 CSS 样式的影响，它会触发重排（reflow），但textContent 不会。
+  // 4.与 textContent 不同的是, 在 Internet Explorer (对于小于等于 IE11 的版本) 中对 innerText 进行修改， 不仅会移除当前元素的子节点，而且还会永久性地破坏所有后代文本节点（所以不可能再次将节点再次插入到任何其他元素或同一元素中）。
+</script>
+</html>

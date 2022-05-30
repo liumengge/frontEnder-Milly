@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>数组 join 模板引擎</title>
+</head>
+<body>
+  <!-- DOM结构视图 -->
+  <ul class="list"></ul>
+  <!-- vue中的写法 -->
+  <!-- <li -v-for = "(item, index) in data.array" :key="index"> -->
+</body>
+<script>
+  // 方式2：使用字符串代替结构化的html来代替DOM结构，用来创建DOM标签
+  const list = document.querySelector('.list')     
+  const data = {
+    array: [
+      {name: 'Alex', sex: '男', age: 18},
+      {name: 'Jack', sex: '男', age: 20},
+      {name: '青峰', sex: '男', age: 19}
+    ]
+  }
+  // 遍历数据 以字符串的视角将html字符串添加到list中
+  for (let i = 0; i < data.array.length; i++) {
+    list.innerHTML += [
+      '<li>',
+      '    <div class="hd">' + data.array[i].name + '基本信息</div>',
+      '    <div class="bd">',
+      '        <p>姓名: ' + data.array[i].name + '</p>',
+      '        <p>性别：' + data.array[i].sex + '</p>',
+      '        <p>年龄：' + data.array[i].age + '</p>',
+      '    </div>',
+      '</li>'
+    ].join('')
+  }
+</script>
+</html>

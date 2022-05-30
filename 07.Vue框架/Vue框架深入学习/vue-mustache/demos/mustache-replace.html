@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>replace 方式实现智能替换</title>
+</head>
+<body>
+  <div class="container"></div>
+</body>
+<script>
+  const container = document.querySelector('.container')
+  const data = {
+      name: 'Milly',
+      age: 18
+  }
+  var templateStr = `
+      <h3>姓名：{{name}},年龄：{{age}}</h3>
+  ` 
+  // 正则里面()表示捕获里面的字母数据
+  let dom = templateStr.replace(/\{\{(\w+)\}\}/g, (...args) => data[args[1]])
+  container.innerHTML = dom
+  console.log(dom);
+</script>
+</html>
