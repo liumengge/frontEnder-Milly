@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=mu, initial-scale=1.0">
-  <title>mustache 渲染对象</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>mustache 条件渲染</title>
 </head>
 <body>
   <div class="container"></div>
@@ -13,12 +13,16 @@
 <script>
   const container = document.querySelector('.container')
   const data = {
-    name: 'Milly',
-    age: 18
+    isShow: true
   }
-  var templateStr = `<h1>姓名：{{ name }}, 年龄：{{ age }}</h1>`
-  let dom = Mustache.render(templateStr, data)
+  var templateStr = `
+    {{#isShow}}
+      <h3>李易峰</h3>
+    {{/isShow}}
+  ` 
+  const dom = Mustache.render(templateStr,data)
   // 写入innerHtml中
   container.innerHTML = dom
+  // 条件渲染类似于 v-if，但是不能写表达式
 </script>
 </html>

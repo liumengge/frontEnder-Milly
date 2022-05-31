@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>正则表达式形式</title>
+</head>
+<body>
+  <script>
+    // const str = '姓名：Milly， 年龄：18'
+    // str.replace(/Milly/g, function(...args) {
+    //   console.log(args)  // ["Milly", 3, "姓名：Milly， 年龄：18"]   [匹配到的内容, 在原字符串中的位置， 原字符串]
+    // })
+  </script>
+  <script>
+    const templateStr = `<h1>姓名：{{name}}, 年龄：{{age}}</h1>`
+    const data = {
+      name: 'Milly',
+      age: 18
+    }
+    templateStr.replace(/\{\{(\w+)\}\}/g, function(findStr, $1) {
+      // $1: 捕获到的第一个圆括号中的内容，如果有多个圆括号，依次类推
+      console.log(findStr, 'findStr')
+      console.log($1, '$1')
+      return data[$1]
+    })
+    console.log(templateStr, 'templateStr')
+  </script>
+</body>
+</html>

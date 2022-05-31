@@ -9,33 +9,33 @@
 6. {{!comments}}：注释
 7. {{>partials}}：以>开始表示子模块，当结构比较复杂时，我们可以使用该语法将复杂的结构拆分成几个小的子模块
 ```
+具体如何使用，参照当前项目目录mustache-howtouse
 
 使用：https://www.npmjs.com/package/mustache
 
-
 ## 正则表达式
 
+> mustache不能用简单的正则表达式思路实现
 ### replace
 
 第一个参数：要匹配的正则，
 第二个参数：可以是替换的字符串，也可以是一个函数。
 第二个参数是函数的形式：第一个参数表示匹配到的正则部分，第二个参数表示匹配到的字符，第三个表示匹配到的字符所在位置，第四个表示需要匹配的字符串。一般来说第二个参数是我们想要的数据
 
-```javascript
+```html
 <div class="container"></div>
-
 <script>
-    const container = document.querySelector('.container')
-    const data = {
-        name: '青峰',
-        age: 18
-    }
-    var templateStr = `
-        <h3>姓名：{{name}},年龄：{{age}}</h3>
-    ` 
-    // 正则里面()表示捕获里面的字母数据
-    let dom = templateStr.replace(/\{\{(\w+)\}\}/g, (...args) => data[args[1]])
-    console.log(dom);
+  const container = document.querySelector('.container')
+  const data = {
+      name: 'Milly',
+      age: 18
+  }
+  var templateStr = `
+      <h3>姓名：{{name}}, 年龄：{{age}}</h3>
+  ` 
+  // 正则里面()表示捕获里面的字母数据
+  let dom = templateStr.replace(/\{\{(\w+)\}\}/g, (...args) => data[args[1]])
+  console.log(dom)
 </script>
 ```
 
@@ -126,7 +126,15 @@ Scanner类 的两个主要方法：
 
 ![](../images/scanner-util.jpg)
 
+## UMD通用模板
 
+```javascript
+function (global, factory) {
+  typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
+  typeof define === 'function' && define.amd ? define(factory) :
+  (global = global || self, global.Mustache = factory());
+}(this, function () {})
+```
 
 
 

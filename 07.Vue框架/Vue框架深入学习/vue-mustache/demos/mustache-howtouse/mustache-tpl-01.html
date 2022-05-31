@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>mustache 循环对象数组</title>
+</head>
+<body>
+  <div class="container"></div>
+</body>
+<script src="https://cdn.bootcdn.net/ajax/libs/mustache.js/4.0.1/mustache.js"></script>
+<script>
+  const container = document.querySelector('.container')
+  const data = {
+    array: [
+      {name: 'Muzi', sex: '男', age: 18},
+      {name: 'Feng', sex: '男', age: 20},
+      {name: '李易峰', sex: '男', age: 19}
+    ]
+  }
+  const templateStr = `
+    <ul>
+      {{#array}}
+        <li>
+          <div class="hd">{{name}}的基本信息</div>
+          <div class="bd">
+            <p>姓名：{{name}}</p>
+            <p>性别：{{sex}}</p>
+            <p>年龄：{{age}}</p>
+          </div>
+        </li>
+      {{/array}}
+    </ul>
+  ` 
+  const dom = Mustache.render(templateStr, data)
+  // 写入innerHtml中
+  container.innerHTML = dom
+</script>
+</html>

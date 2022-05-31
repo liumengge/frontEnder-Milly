@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>模板字符串写在script中</title>
+</head>
+<script src="https://cdn.bootcdn.net/ajax/libs/mustache.js/4.0.1/mustache.js"></script>
+<body>
+  <div class="container"></div>
+  <!-- 模板 -->
+  <script type="text/template" id="tplStr">
+    <!-- 这个脚本不会被执行 -->
+    <ul>
+      {{#arr}}
+        <li>
+          <div class="hd">{{name}}的基本信息</div>
+          <div class="bd">
+            <p>姓名：{{name}}</p>
+            <p>性别：{{sex}}</p>
+            <p>年龄：{{age}}</p>
+          </div>
+        </li>
+      {{/arr}}
+    </ul>
+  </script>
+  <script>
+    const container = document.querySelector('.container')
+    const data = {
+      arr: [
+        {name: 'Muzi', sex: '男', age: 18},
+        {name: 'Feng', sex: '男', age: 20},
+        {name: '李易峰', sex: '男', age: 19}
+      ]
+    }
+    const templateStr = document.querySelector('#tplStr').innerHTML
+    const dom = Mustache.render(templateStr, data)
+    // 写入innerHtml中
+    container.innerHTML = dom
+  </script>
+</body>
+</html>

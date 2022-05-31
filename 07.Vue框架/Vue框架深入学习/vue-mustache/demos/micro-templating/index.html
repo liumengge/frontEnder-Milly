@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Micro-Templating</title>
+</head>
+<body>
+  <div class="container"></div>
+  <script src="./index.js" ></script>
+  <script type="text/template" id="data_tmpl">
+    <% for ( var i = 0; i < items.length; i++ ) { %>    
+      <% if( i%2 == 0) {%>
+        <li><%=items[i].id%>:<%=items[i].name%></li>
+      <% } %> 
+    <% } %>
+    <% print('数组长度' + items.length ); %>
+    <div style='background:<%=color%>'><%=id%></div>
+  </script>
+  <script>
+    const data = {
+      id: '000',
+      items: [
+        {id: '001', name: 'Milly'},
+        {id: '002', name: 'Moon'},
+        {id: '003', name: 'Cindy'}
+      ],
+      color: 'pink'
+    }
+    const tpl = this.tmpl('data_tmpl', data)
+    const container = document.querySelector('.container')
+    container.innerHTML = tpl
+  </script>
+</body>
+</html>

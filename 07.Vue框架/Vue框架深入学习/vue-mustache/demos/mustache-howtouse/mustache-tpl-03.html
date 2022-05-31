@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>mustache 循环嵌套数组</title>
+  <title>mustache 循环简单数组</title>
 </head>
 <body>
   <div class="container"></div>
@@ -13,27 +13,18 @@
 <script>
   const container = document.querySelector('.container')
   const data = {
-    array: [
-      { name: 'Muzi', hobies:['打篮球', '羽毛球']},
-      { name: 'Feng', hobies:['游泳', '唱歌']},
-      { name: '李易峰', hobies:['玩游戏', '踢足球']}
-    ]
+    array: [ 'Muzi', 'Feng', '李易峰']
   }
-  var templateStr = `
+  const templateStr = `
     <ul>
       {{#array}}
       <li>
-        {{name}}的爱好
-        <ol>
-          {{#hobies}}
-            <li>{{.}}</li>
-          {{/hobies}}    
-        </ol>
+        {{.}}
       </li>
       {{/array}}
     </ul>
   `
-  let dom = Mustache.render(templateStr, data)
+  const dom = Mustache.render(templateStr, data)
   // 写入innerHtml中
   container.innerHTML = dom
 </script>
