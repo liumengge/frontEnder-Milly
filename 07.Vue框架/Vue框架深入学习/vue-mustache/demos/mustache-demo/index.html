@@ -22,31 +22,6 @@
 
     const dom = templateEngine.render(tplStr, data)
     container.innerHTML = dom
-
-
-    // const data1 = {
-    //   array: [
-    //     { name: 'Alex', sex: '男', age: 18 },
-    //     { name: 'Jack', sex: '男', age: 20 },
-    //     { name: '青峰', sex: '男', age: 19 },
-    //   ]
-    // }
-    // const tplStr1 = `
-    //   <ul>
-    //     {{#array}}
-    //       <li>
-    //         <div class="hd">{{name}}的基本信息</div>
-    //         <div class="bd">
-    //           <p>姓名：{{name}}</p>
-    //           <p>性别：{{sex}}</p>
-    //           <p>年龄：{{age}}</p>
-    //         </div>
-    //       </li>
-    //     {{/array}}
-    //   </ul>
-    // `
-    // const dom1 = templateEngine.render(tplStr1, data1)
-    // container.innerHTML = dom1
   </script>
 </body>
 </html>
