@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>arrify</title>
+</head>
+<body>
+  <script type="module">
+    import arrify from './node_modules/arrify/index.js'
+
+    console.log(arrify(123))
+    console.log(arrify([1,2,3]))
+    console.log(arrify({a: 1, b: 2}))
+    console.log(arrify(new Set([1,2,3,3,4])))
+    console.log(arrify([{a: {test: 1}}, {b: 2}]))
+    const obj = {a: {test: 1}, b: 2}
+    const objArr = arrify(obj)
+    for (const iterator of obj) {
+      console.log(iterator)
+    }
+    for (const iterator of objArr) {
+      console.log(iterator)
+    }
+  </script>
+</body>
+</html>
