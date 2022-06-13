@@ -8,5 +8,14 @@
 </head>
 <body>
   <script src="/xuni/bundle.js"></script>
+  <script>
+    // 模板字符串
+    const tpl = '我买了一个{{good}}, 好{{mood}}啊'
+    const data = {
+      good: '电脑',
+      mood: '开心'
+    }
+    Milly_Template.render(tpl, data || {})
+  </script>
 </body>
 </html>

@@ -126,14 +126,48 @@ Scanner类 的两个主要方法：
 
 ![](../images/scanner-util.jpg)
 
-## UMD通用模板
+## 手写 mustache
 
+### 环境准备
+
+1. 模块打包工具使用webpack，官方用的rollup。使用webpack的好处是可以方便的在浏览器中实时调试。
+2. 生成库是UMD的
+
+UMD通用头；
 ```javascript
 function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
   typeof define === 'function' && define.amd ? define(factory) :
   (global = global || self, global.Mustache = factory());
 }(this, function () {})
+```
+
+3. 版本
+
+```javascript
+"webpack": "^4.44.2",
+"webpack-cli": "^3.3.12",
+"webpack-dev-server": "^3.11.0"
+```
+4. webpack 配置
+
+```javascript
+const path = require('path')
+
+module.exports = {
+  mode: 'development',
+  entry: './src/index.js',
+  output: {
+    filename: 'bundle.js'
+  },
+  devServer: {
+    contentBase: path.join(__dirname, 'www'),
+    compress: false,
+    port: 8888,
+    // 虚拟路径，bundle.js 文件没有真正生成
+    publicPath: '/xuni/'
+  }
+}
 ```
 
 
