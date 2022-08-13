@@ -1,4 +1,4 @@
-// TS 支持通过 getters/setters 来截取对对象成员的访问
+// 存取器：TS 支持通过 getters/setters 来截取对对象成员的访问
 
 class Employee {
   fullName: string

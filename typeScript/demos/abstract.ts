@@ -1,10 +1,13 @@
 // 抽象类 abstract 关键字
 
-// 抽象类作为其他派生类的基类使用，一般不会直接被实例化 ？？？ 暂时不理解
+// 抽象类：包含抽象方法（抽象方法一般没有任何的具体内容实现）也可以包含实例方法
+// 抽象类作为其他派生类的基类使用，一般不会直接被实例化
+// 抽象类为了让子类进行实例化及实现内部的抽象方法
 
 // abstract: 定义抽象类，定义抽象类中的抽象方法
 // 抽象类中的抽象方法不包含具体实现并且必须在派生类中实现
 
+// 定义一个抽象类
 abstract class Department {
   constructor(public name: string) {}
 
@@ -12,7 +15,8 @@ abstract class Department {
     console.log(`name:${this.name}`)
   }
 
-  abstract printMe(tes: string): void   // 抽象类，必须在派生类中实现，相当于在这里只声明了函数参数的类型和返回值的类型
+  // 抽象方法必须在派生类中实现，相当于在这里只声明了函数参数的类型和返回值的类型
+  abstract printMe(tes: string): void
 }
 
 class AADepartment extends Department {
@@ -52,11 +56,4 @@ let p3: P3 = {
   y: 2,
   z: 3
 }
-
-
-
-
-
-
-
 
