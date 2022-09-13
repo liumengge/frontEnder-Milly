@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>渐变</title>
+  <style>
+    .linear-gradient {
+      width: 400px;
+      height: 20px;
+      background-image: -webkit-gradient(linear, 0% 0%,100% 0%, from(#2A8BBE),to(#FE280E));
+      box-shadow:5px 2px 6px rgba(64, 64, 64, 0.5);
+    }
+    .radial-gradient {
+      width: 100px;
+      height: 100px;
+      background: -webkit-gradient(radial, 50 50, 50, 50 50, 0, from(blue), to(red));
+      text-shadow:1px 1px 2px #c10ccc,
+        1px 1px 2px #648cb4,
+        1px 1px 6px #cc150c;
+      -webkit-box-reflect: below 20px -webkit-gradient(linear, left top, left bottom, from(transparent), to(rgba(255, 255, 255, 0.51))); 
+    }
+  </style>
+</head>
+<body>
+  <div class="linear-gradient"></div>
+  <div class="radial-gradient">测试下文字有没有阴影效果</div>
+</body>
+</html>

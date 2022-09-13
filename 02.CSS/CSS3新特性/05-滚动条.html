@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+
+<body>
+    <div class="father">
+        <div class="son">
+            <div class="title">H</div>
+            <div class="title">E</div>
+            <div class="title">L</div>
+            <div class="title">L</div>
+            <div class="title">O</div>
+        </div>
+    </div>
+</body>
+<style>
+    .father {
+        overflow: hidden;
+        /* 父盒子宽度500 */
+        width: 500px; 
+        height: 400px;
+    }
+
+    .son {
+        overflow: auto;
+        /* 子盒子宽度520 */
+        width: 520px; 
+        height: 100%;
+        background-color: pink;
+    }
+
+    .title {
+        height: 100px;
+        text-align: center;
+        font-size: 50px;
+    }
+</style>
+
+</html>

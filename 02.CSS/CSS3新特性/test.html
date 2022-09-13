@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
+    <title>Document</title>
+    <style>
+        body {
+            max-width: 325px;
+            padding: 10px 30px;
+        }
+        
+        .hide-scrollbar {
+            position: relative;
+            width: 100%;
+            height: 100px;
+            overflow: hidden;
+        }
+        
+        .scrollbar {
+            position: absolute;
+            width: calc(100% + 18px);
+            height: 100%;
+            background-color: #ccc;
+            overflow-y: auto;
+        }
+        
+        .scrollbar ul {
+            margin: 0;
+        }
+        
+        .scrollbar.row {
+            width: 100%;
+            height: calc(100% + 18px);
+            overflow-y: hidden;
+            overflow-x: auto;
+        }
+        
+        .scrollbar.row ul {
+            white-space: nowrap;
+        }
+        
+        .scrollbar.row ul li {
+            display: inline-block;
+            line-height: 100px;
+        }
+    </style>
+</head>
+
+
+<body>
+    <h4>竖向</h4>
+    <div class="hide-scrollbar">
+        <div class="scrollbar">
+            <ul>
+                <li>demo-list</li>
+                <li>demo-list</li>
+                <li>demo-list</li>
+                <li>demo-list</li>
+                <li>demo-list</li>
+                <li>demo-list</li>
+                <li>demo-list</li>
+                <li>demo-list</li>
+                <li>demo-list</li>
+                <li>demo-list</li>
+                <li>demo-list</li>
+            </ul>
+        </div>
+    </div>
+    <h4>横向</h4>
+    <div class="hide-scrollbar">
+        <div class="scrollbar row">
+            <ul>
+                <li>demo-list</li>
+                <li>demo-list</li>
+                <li>demo-list</li>
+                <li>demo-list</li>
+                <li>demo-list</li>
+                <li>demo-list</li>
+                <li>demo-list</li>
+                <li>demo-list</li>
+                <li>demo-list</li>
+                <li>demo-list</li>
+                <li>demo-list</li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>
