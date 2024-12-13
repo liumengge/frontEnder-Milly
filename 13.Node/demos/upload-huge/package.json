@@ -29,7 +29,7 @@
     "@vue/test-utils": "^1.0.3",
     "less": "^3.0.4",
     "less-loader": "^5.0.0",
-    "nodemon": "^2.0.15",
+    "nodemon": "^2.0.20",
     "vue-cli-plugin-element": "^1.0.1",
     "vue-template-compiler": "^2.6.11"
   },
